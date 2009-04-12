@@ -20,10 +20,12 @@ module Bob
       #
       # [<tt>:author</tt>]       Commit author's name and email
       # [<tt>:message</tt>]      Commit message
-      # [<tt>:committed_at</tt>] Commit date (as a string)
+      # [<tt>:committed_at</tt>] Commit date (as a <tt>Time</tt> object)
       def info(commit_id)
         format  = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
-        YAML.load(`cd #{working_dir} && git show -s --pretty=format:"#{format}" #{commit_id}`)
+        YAML.load(`cd #{working_dir} && git show -s --pretty=format:"#{format}" #{commit_id}`).tap do |info|
+          info[:committed_at] = Time.parse(info[:committed_at])
+        end
       end
 
       # Directory where the code will be checked out. Make sure the user running Bob is 
