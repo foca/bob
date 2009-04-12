@@ -29,15 +29,15 @@ module TestHelpers
       @metadata = {}
     end
 
-    def repo_kind
+    def kind
       :git
     end
 
-    def repo_uri
+    def uri
       @repo.path
     end
 
-    def repo_branch
+    def branch
       "master"
     end
 

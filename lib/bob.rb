@@ -12,15 +12,15 @@ require "bob/background_engines"
 module Bob
   # Builds the specified <tt>buildable</tt>. This object must understand the following API:
   #
-  # * <tt>buildable.repo_kind</tt>
+  # * <tt>buildable.kind</tt>
   #
   #   Should return a Symbol with whatever kind of repository the buildable's code is
   #   in (:git, :svn, etc).
-  # * <tt>buildable.repo_uri</tt>
+  # * <tt>buildable.uri</tt>
   #
   #   Returns a string like "git://github.com/integrity/bob.git", pointing to the code
   #   repository.
-  # * <tt>buildable.repo_branch</tt>
+  # * <tt>buildable.branch</tt>
   #
   #   What branch of the repository should we build?
   # * <tt>buildable.build_script</tt>
@@ -42,7 +42,7 @@ module Bob
   #   A successful build is one where the build script returns a zero status code.
   #
   # The build process is to fetch the code from the repository (determined by
-  # <tt>buildable.repo_kind</tt> and <tt>buildable.repo_uri</tt>), then checkout the specified
+  # <tt>buildable.kind</tt> and <tt>buildable.uri</tt>), then checkout the specified
   # <tt>commid_ids</tt>, and finally run <tt>buildable.build_script</tt> on each.
   def self.build(buildable, *commit_ids)
     commit_ids.each do |commit_id|
