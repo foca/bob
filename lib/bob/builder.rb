@@ -28,19 +28,14 @@ module Bob
 
     private
 
-    def scm
-      @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
-    end
-
-    def in_background(&block)
-      Bob.background_engine.call(block)
-    end
+    attr_reader :buildable, :commit_id
 
     def run_command
-      build_output = nil
-
       Bob.logger.debug "Running the build script for #{buildable.uri}"
+
+      build_output = nil
       IO.popen(command, "r") { |output| build_output = output.read }
+
       Bob.logger.debug("Ran command `#{command}` and got:\n#{build_output}")
 
       [$?.success?, build_output]
@@ -48,6 +43,14 @@ module Bob
 
     def command
       "(cd #{scm.working_dir} && #{buildable.command} 2>&1)"
+    end
+
+    def scm
+      @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
+    end
+
+    def in_background(&block)
+      Bob.background_engine.call(block)
     end
   end
 end
