@@ -5,6 +5,7 @@ module Bob
     def initialize(buildable, commit_id)
       @buildable = buildable
       @commit_id = commit_id
+      @build_status = nil
       @build_output = nil
     end
 
@@ -18,14 +19,15 @@ module Bob
       in_background do
         scm.with_commit(commit_id) do
           buildable.start_building(commit_id, scm.info(commit_id))
-          report_build run_build_script
+          run_build_script
+          report_build 
         end
       end
     end
 
     private
 
-    attr_reader :buildable, :commit_id, :build_output
+    attr_reader :buildable, :commit_id, :build_output, :build_status
 
     def scm
       @scm ||= SCM.new(buildable.repo_kind, buildable.repo_uri, buildable.repo_branch)
@@ -39,11 +41,12 @@ module Bob
       end
 
       Bob.logger.debug("Ran command '(cd #{scm.working_dir} && #{buildable.build_script} 2>&1)' and got:\n#{build_output}")
-      $?.success?
+
+      @build_status = $?.success?
     end
 
-    def report_build(status)
-      if status
+    def report_build
+      if build_status
         buildable.add_successful_build(commit_id, build_output)
       else
         buildable.add_failed_build(commit_id, build_output)
