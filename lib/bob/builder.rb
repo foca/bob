@@ -1,10 +1,16 @@
 module Bob
   # A Builder will take care of building a buildable (wow, you didn't see that coming,
   # right?).
+  #
+  # * <tt>build_output</tt> defaults to nil. It will be set the whatever the build command
+  #   writes to STDOUT and STDERR once the build has finished.
   class Builder
+    attr_reader :build_output
+
     def initialize(buildable, commit_id)
       @buildable = buildable
       @commit_id = commit_id
+      @build_output = nil
     end
 
     # This is where the magic happens:
@@ -32,21 +38,20 @@ module Bob
       @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
     end
 
+    def in_background(&block)
+      Bob.background_engine.call(block)
+    end
+
     def run_command
       Bob.logger.debug "Running the build script for #{buildable.uri}"
-
-      build_output = nil
-      IO.popen("(cd #{scm.working_dir} && #{buildable.command} 2>&1)", "r") do |output|
-        build_output = output.read
-      end
-
-      Bob.logger.debug("Ran command '(cd #{scm.working_dir} && #{buildable.command} 2>&1)' and got:\n#{build_output}")
+      IO.popen(command, "r") { |output| @build_output = output.read }
+      Bob.logger.debug("Ran command `#{command}` and got:\n#{build_output}")
 
       [$?.success?, build_output]
     end
 
-    def in_background(&block)
-      Bob.background_engine.call(block)
+    def command
+      "(cd #{scm.working_dir} && #{buildable.command} 2>&1)"
     end
   end
 end
