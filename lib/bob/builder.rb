@@ -28,8 +28,6 @@ module Bob
 
     private
 
-    attr_reader :buildable, :commit_id
-
     def run_build_script
       build_output = nil
 

@@ -1,5 +1,10 @@
 require "rake/testtask"
-require "rake/rdoctask"
+
+begin
+  require "hanna/rdoctask"
+rescue LoadError
+  require "rake/rdoctask"
+end
 
 begin
   require "metric_fu"
@@ -22,6 +27,7 @@ end
 
 Rake::RDocTask.new do |rd|
   rd.main = "README"
+  rd.title = "Documentation for Bob the Builder"
   rd.rdoc_files.include("README", "LICENSE", "lib/**/*.rb")
   rd.rdoc_dir = "doc"
 end
