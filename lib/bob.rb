@@ -23,7 +23,7 @@ module Bob
   # * <tt>buildable.branch</tt>
   #
   #   What branch of the repository should we build?
-  # * <tt>buildable.build_script</tt>
+  # * <tt>buildable.command</tt>
   #
   #   Returns a string containing the command to be run when "building".
   # * <tt>buildable.start_building(commit_id)</tt>
@@ -43,7 +43,7 @@ module Bob
   #
   # The build process is to fetch the code from the repository (determined by
   # <tt>buildable.kind</tt> and <tt>buildable.uri</tt>), then checkout the specified
-  # <tt>commid_ids</tt>, and finally run <tt>buildable.build_script</tt> on each.
+  # <tt>commid_ids</tt>, and finally run <tt>buildable.command</tt> on each.
   def self.build(buildable, *commit_ids)
     commit_ids.each do |commit_id|
       Builder.new(buildable, commit_id).build

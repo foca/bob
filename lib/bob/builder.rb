@@ -18,7 +18,7 @@ module Bob
       in_background do
         scm.with_commit(commit_id) do
           buildable.start_building(commit_id, scm.info(commit_id))
-          build_status, build_output = run_build_script
+          build_status, build_output = run_command
           buildable.finish_building(commit_id, build_status, build_output)
         end
       end
@@ -32,15 +32,15 @@ module Bob
       @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
     end
 
-    def run_build_script
+    def run_command
       Bob.logger.debug "Running the build script for #{buildable.uri}"
 
       build_output = nil
-      IO.popen("(cd #{scm.working_dir} && #{buildable.build_script} 2>&1)", "r") do |output|
+      IO.popen("(cd #{scm.working_dir} && #{buildable.command} 2>&1)", "r") do |output|
         build_output = output.read
       end
 
-      Bob.logger.debug("Ran command '(cd #{scm.working_dir} && #{buildable.build_script} 2>&1)' and got:\n#{build_output}")
+      Bob.logger.debug("Ran command '(cd #{scm.working_dir} && #{buildable.command} 2>&1)' and got:\n#{build_output}")
 
       [$?.success?, build_output]
     end
