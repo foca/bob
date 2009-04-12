@@ -47,19 +47,24 @@ module Bob
       end
 
       def clone
-        run_command "git clone #{uri} #{working_dir}"
+        git "clone #{uri} #{working_dir}"
       rescue CantRunCommand
         FileUtils.rm_r working_dir
         retry
       end
 
       def fetch
-        run_command "cd #{working_dir} && git fetch origin"
+        git "fetch origin"
       end
 
       def checkout(commit_id)
         # First checkout the branch just in case the commit_id turns out to be HEAD or other non-sha identifier
-        run_command "cd #{working_dir} && git checkout origin/#{branch} && git reset --hard #{commit_id}"
+        git "checkout origin/#{branch}"
+        git "reset --hard #{commit_id}"
+      end
+
+      def reset(commit_id)
+        git "reset --hard #{commit_id}"
       end
 
       def path_from_uri
@@ -70,11 +75,11 @@ module Bob
         path += "-#{branch}"
       end
 
-      def run_command(cmd)
-        Bob.logger.debug "Running git command: '#{cmd}'"
-        system("(#{cmd}) &>/dev/null").tap do |successful|
-          raise CantRunCommand, "Couldn't run '#{cmd}'" unless successful
-        end
+      def git(command)
+        command = "(cd #{working_dir} && git #{command} &>/dev/null)"
+        Bob.logger.debug command
+
+        system(command) || raise(CantRunCommand, "Couldn't run `#{command}`")
       end
     end
   end
