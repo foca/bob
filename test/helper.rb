@@ -16,8 +16,8 @@ require "bob"
 require "git_helper"
 
 Bob.logger = Logger.new("/dev/null")
-Bob.background_engine = Bob::BackgroundEngines::Foreground
-Bob.base_dir = File.expand_path(File.dirname(__FILE__) + "/tmp/")
+Bob.engine = Bob::BackgroundEngines::Foreground
+Bob.directory = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 
 module TestHelpers
   class StubBuildable
@@ -59,8 +59,8 @@ module TestHelpers
   end
 
   def reset_build_directory!
-    FileUtils.rm_rf Bob.base_dir if File.directory? Bob.base_dir
-    FileUtils.mkdir_p Bob.base_dir
+    FileUtils.rm_rf Bob.directory if File.directory?(Bob.directory)
+    FileUtils.mkdir_p Bob.directory
   end
 end
 

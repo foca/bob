@@ -14,7 +14,7 @@ module GitHelper
   class Repo
     attr_reader :path
 
-    def initialize(name, base_dir=Bob.base_dir)
+    def initialize(name, base_dir=Bob.directory)
       @name = name
       @path = File.join(base_dir, @name.to_s)
       create

@@ -20,8 +20,14 @@ module Bob
 
   # Directory where the code for the different buildables will be checked out. Make sure
   # the user running Bob is allowed to write to this directory.
-  def self.base_dir
-    @base_dir || "/tmp"
+  def self.directory
+    @checkout_directory || "/tmp"
+  end
+
+  # What will you use to build in background. Must respond to <tt>call</tt> and take a block
+  # which will be run "in background". The default is to run in foreground.
+  def self.engine
+    @engine || BackgroundEngines::Foreground
   end
 
   # What to log with (must implement ruby's Logger interface). Logs to STDOUT by
@@ -30,13 +36,7 @@ module Bob
     @logger || Logger.new(STDOUT)
   end
 
-  # What will you use to build in background. Must respond to <tt>call</tt> and take a block
-  # which will be run "in background". The default is to run in foreground.
-  def self.background_engine
-    @background_engine || BackgroundEngines::Foreground
-  end
-
   class << self
-    attr_writer :logger, :base_dir, :background_engine
+    attr_writer :directory, :engine, :logger
   end
 end

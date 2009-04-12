@@ -47,7 +47,7 @@ module Bob
     end
 
     def in_background(&block)
-      Bob.background_engine.call(block)
+      Bob.engine.call(block)
     end
   end
 end
