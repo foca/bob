@@ -21,8 +21,12 @@ Bob.base_dir = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 
 module TestHelpers
   class StubBuildable
+    attr_reader :builds, :metadata
+
     def initialize(repo_name)
       @repo = GitHelper.git_repo(repo_name)
+      @builds = {}
+      @metadata = {}
     end
 
     def repo_kind
@@ -42,9 +46,11 @@ module TestHelpers
     end
 
     def start_building(commit_id, commit_info)
+      @metadata[commit_id] = commit_info
     end
 
     def finish_building(commit_id, status, output)
+      @builds[commit_id] = [status ? :successful : :failed, output]
     end
   end
 
