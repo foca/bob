@@ -41,7 +41,7 @@ module TestHelpers
       "master"
     end
 
-    def command
+    def build_script
       "./test"
     end
 

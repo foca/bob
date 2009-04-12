@@ -2,9 +2,9 @@
 
 Given a Buildable object with the following public API:
 
-- <tt>repo_kind</tt> (<tt>:git</tt>, <tt>:svn</tt>, ...)
-- <tt>repo_uri</tt> (<tt>"git://github.com/foca/bob.git"</tt>)
-- <tt>repo_branch</tt> (<tt>"master"</tt>)
+- <tt>kind</tt> (<tt>:git</tt>, <tt>:svn</tt>, ...)
+- <tt>uri</tt> (<tt>"git://github.com/foca/bob.git"</tt>)
+- <tt>branch</tt> (<tt>"master"</tt>)
 - <tt>build_script</tt> (<tt>"make test && make && make install"</tt>)
 - <tt>start_building(commit_id, commit_info)</tt>
 - <tt>finish_building(commit_id, status, output)</tt>
