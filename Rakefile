@@ -6,6 +6,12 @@ begin
 rescue LoadError
 end
 
+begin
+  require "mg"
+  MG.new("bob.gemspec")
+rescue LoadError
+end
+
 desc "Default: run all tests"
 task :default => :test
 

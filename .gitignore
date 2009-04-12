@@ -1,3 +1,5 @@
+*.gem
+dist/*
 tmp/*
 test/tmp/*
 doc/*
