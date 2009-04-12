@@ -48,7 +48,6 @@ module Bob
   # called. If not, <tt>buildable.add_failed_build</tt> is called instead. A successful build
   # is one where the build script returns a zero status code.
   def self.build(buildable, *commit_ids)
-    raise ArgumentError, "at least one commit_id must be specified" if commit_ids.empty?
     commit_ids.each do |commit_id|
       Builder.new(buildable, commit_id).build
     end
