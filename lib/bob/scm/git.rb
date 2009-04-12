@@ -8,7 +8,7 @@ module Bob
         @branch = branch
       end
 
-      # Checkout the code into +working_dir+ at the specified revision and 
+      # Checkout the code into <tt>working_dir</tt> at the specified revision and 
       # call the passed block
       def with_commit(commit_id)
         update_code
@@ -17,16 +17,17 @@ module Bob
       end
 
       # Get some information about the specified commit. Returns a hash with:
-      # :author       => Author name and email
-      # :message      => Commit message
-      # :committed_at => Commit date
+      #
+      # [<tt>:author</tt>]       Commit author's name and email
+      # [<tt>:message</tt>]      Commit message
+      # [<tt>:committed_at</tt>] Commit date (as a string)
       def info(commit_id)
         format  = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
         YAML.load(`cd #{working_dir} && git show -s --pretty=format:"#{format}" #{commit_id}`)
       end
 
-      # Directory where the code will be checked out. Make sure the user running
-      # Bob is allowed to write to this directory (or you'll get a Errno::EACCESS)
+      # Directory where the code will be checked out. Make sure the user running Bob is 
+      # allowed to write to this directory (or you'll get a <tt>Errno::EACCESS</tt>)
       def working_dir
         @working_dir ||= "#{Bob.base_dir}/#{path_from_uri}".tap do |path|
           FileUtils.mkdir_p path

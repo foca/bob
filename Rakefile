@@ -21,7 +21,7 @@ Rake::TestTask.new(:test) do |t|
 end
 
 Rake::RDocTask.new do |rd|
-  rd.main = "README.rdoc"
-  rd.rdoc_files.include("README.rdoc", "lib/**/*.rb")
+  rd.main = "README"
+  rd.rdoc_files.include("README", "LICENSE", "lib/**/*.rb")
   rd.rdoc_dir = "doc"
 end

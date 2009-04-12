@@ -8,9 +8,11 @@ module Bob
       @build_output = nil
     end
 
-    # This is where the magic happens: check out the repo to the 
-    # appropriate commit and then run the build script on it, and
-    # finally reports the build.
+    # This is where the magic happens: 
+    #
+    # 1. Check out the repo to the appropriate commit.
+    # 2. Run the build script on it in the background.
+    # 3. Reports the build back to the buildable.
     def build
       Bob.logger.info "Building #{commit_id} of the #{buildable.repo_kind} repo at #{buildable.repo_uri}"
       in_background do

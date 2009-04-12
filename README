@@ -1,0 +1,31 @@
+= Bob the Builder
+
+Given a Buildable object with the following public API:
+
+- <tt>repo_kind</tt> (<tt>:git</tt>, <tt>:svn</tt>, ...)
+- <tt>repo_uri</tt> (<tt>"git://github.com/foca/bob.git"</tt>)
+- <tt>repo_branch</tt> (<tt>"master"</tt>)
+- <tt>build_script</tt> (<tt>"make test && make && make install"</tt>)
+- <tt>start_building(commit_id, commit_info)</tt>
+- <tt>add_successful_build(commit_id, output)</tt>
+- <tt>add_failed_build(commit_id, output)</tt>
+
+Bob will, when called like:
+
+    Bob.build(buildable, commit_id)
+
+1. Checkout the buildable on the specified commit
+2. Call <tt>buildable.start_building</tt>
+3. Run the script provided in <tt>build_script</tt> in the buildable.
+4. If the script returns a status code of 0 it calls <tt>add_successful_build</tt> on the
+   buildable with the appropriate arguments. If not, it calls <tt>add_failed_build</tt>.
+
+== Do I need this?
+
+Probably not. Check out integrity[http://integrityapp.com] for a full fledged automated CI 
+server, which is what most people need.
+
+== Credits
+
+Authors:: Nicolas Sanguinetti (foca[http://github.com/foca]) and Simon Rozet (sr[http://github.com/sr])
+License:: MIT (Check LICENSE for details)
