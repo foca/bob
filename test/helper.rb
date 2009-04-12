@@ -17,7 +17,7 @@ require "git_helper"
 
 Bob.logger = Logger.new("/dev/null")
 Bob.background_engine = Bob::BackgroundEngines::Foreground
-Bob.base_dir = File.expand_path(File.dirname(__FILE__) + "/../tmp/")
+Bob.base_dir = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 
 module TestHelpers
   class StubBuildable
