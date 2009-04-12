@@ -1,16 +1,12 @@
 module Bob
   # A Builder will take care of building a buildable (wow, you didn't see that coming,
   # right?).
-  #
-  # * <tt>build_output</tt> defaults to nil. It will be set the whatever the build command
-  #   writes to STDOUT and STDERR once the build has finished.
   class Builder
-    attr_reader :build_output
+    attr_reader :buildable, :commit_id
 
     def initialize(buildable, commit_id)
       @buildable = buildable
       @commit_id = commit_id
-      @build_output = nil
     end
 
     # This is where the magic happens:
@@ -32,8 +28,6 @@ module Bob
 
     private
 
-    attr_reader :buildable, :commit_id
-
     def scm
       @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
     end
@@ -43,8 +37,10 @@ module Bob
     end
 
     def run_command
+      build_output = nil
+
       Bob.logger.debug "Running the build script for #{buildable.uri}"
-      IO.popen(command, "r") { |output| @build_output = output.read }
+      IO.popen(command, "r") { |output| build_output = output.read }
       Bob.logger.debug("Ran command `#{command}` and got:\n#{build_output}")
 
       [$?.success?, build_output]
