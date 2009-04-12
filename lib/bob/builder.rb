@@ -7,7 +7,7 @@ module Bob
       @commit_id = commit_id
     end
 
-    # This is where the magic happens: 
+    # This is where the magic happens:
     #
     # 1. Check out the repo to the appropriate commit.
     # 2. Notify the buildable that the build is starting.
@@ -19,7 +19,7 @@ module Bob
         scm.with_commit(commit_id) do
           buildable.start_building(commit_id, scm.info(commit_id))
           build_status, build_output = run_build_script
-          buildable.finish_building(commit_id, build_status, build_output) 
+          buildable.finish_building(commit_id, build_status, build_output)
         end
       end
     end
@@ -36,7 +36,7 @@ module Bob
       Bob.logger.debug "Running the build script for #{buildable.repo_uri}"
 
       build_output = nil
-      IO.popen("(cd #{scm.working_dir} && #{buildable.build_script} 2>&1)", "r") do |output| 
+      IO.popen("(cd #{scm.working_dir} && #{buildable.build_script} 2>&1)", "r") do |output|
         build_output = output.read
       end
 

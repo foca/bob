@@ -8,7 +8,7 @@ module Bob
         @branch = branch
       end
 
-      # Checkout the code into <tt>working_dir</tt> at the specified revision and 
+      # Checkout the code into <tt>working_dir</tt> at the specified revision and
       # call the passed block
       def with_commit(commit_id)
         update_code
@@ -28,7 +28,7 @@ module Bob
         end
       end
 
-      # Directory where the code will be checked out. Make sure the user running Bob is 
+      # Directory where the code will be checked out. Make sure the user running Bob is
       # allowed to write to this directory (or you'll get a <tt>Errno::EACCESS</tt>)
       def working_dir
         @working_dir ||= "#{Bob.base_dir}/#{path_from_uri}".tap do |path|

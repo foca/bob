@@ -14,7 +14,7 @@ module Bob
   #
   # * <tt>buildable.repo_kind</tt>
   #
-  #   Should return a Symbol with whatever kind of repository the buildable's code is 
+  #   Should return a Symbol with whatever kind of repository the buildable's code is
   #   in (:git, :svn, etc).
   # * <tt>buildable.repo_uri</tt>
   #
@@ -22,13 +22,13 @@ module Bob
   #   repository.
   # * <tt>buildable.repo_branch</tt>
   #
-  #   What branch of the repository should we build? 
+  #   What branch of the repository should we build?
   # * <tt>buildable.build_script</tt>
   #
   #   Returns a string containing the command to be run when "building".
   # * <tt>buildable.start_building(commit_id)</tt>
   #
-  #   `commit_id` is a String that contains whatever is appropriate for the repo type, 
+  #   `commit_id` is a String that contains whatever is appropriate for the repo type,
   #   so it would be a SHA1 hash for git repos, or a numeric id for svn, etc. This is a
   #   callback so the buildable can determine how long it takes to build. It doesn't
   #   need to return anything.
@@ -42,7 +42,7 @@ module Bob
   #   A successful build is one where the build script returns a zero status code.
   #
   # The build process is to fetch the code from the repository (determined by
-  # <tt>buildable.repo_kind</tt> and <tt>buildable.repo_uri</tt>), then checkout the specified 
+  # <tt>buildable.repo_kind</tt> and <tt>buildable.repo_uri</tt>), then checkout the specified
   # <tt>commid_ids</tt>, and finally run <tt>buildable.build_script</tt> on each.
   def self.build(buildable, *commit_ids)
     commit_ids.each do |commit_id|

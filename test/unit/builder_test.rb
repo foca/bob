@@ -21,7 +21,7 @@ class BuilderTest < Test::Unit::TestCase
   test "it calls #add_build (:successful) on the buildable after a successful build" do
     git_repo(:test_repo).add_successful_commit
     builder.build
-    
+
     assert_equal [:successful, "Running tests...\n"], buildable.builds[commit_id]
   end
 

@@ -22,7 +22,7 @@ Bob will, when called like:
 
 == Do I need this?
 
-Probably not. Check out integrity[http://integrityapp.com] for a full fledged automated CI 
+Probably not. Check out integrity[http://integrityapp.com] for a full fledged automated CI
 server, which is what most people need.
 
 == Credits
