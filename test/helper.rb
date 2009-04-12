@@ -44,10 +44,7 @@ module TestHelpers
     def start_building(commit_id, commit_info)
     end
 
-    def add_successful_build(commit_id, output)
-    end
-
-    def add_failed_build(commit_id, output)
+    def finish_building(commit_id, status, output)
     end
   end
 

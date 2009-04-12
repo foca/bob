@@ -18,15 +18,15 @@ class BuilderTest < Test::Unit::TestCase
     builder.build
   end
 
-  test "it calls #add_successful_build on the buildable after a successful build" do
+  test "it calls #add_build (:successful) on the buildable after a successful build" do
     git_repo(:test_repo).add_successful_commit
-    mock.proxy(buildable).add_successful_build(commit_id, "Running tests...\n")
+    mock.proxy(buildable).finish_building(commit_id, true, "Running tests...\n")
     builder.build
   end
 
-  test "it calls #add_failed_build on the buildable after a failed build" do
+  test "it calls #add_build (:failed) on the buildable after a failed build" do
     git_repo(:test_repo).add_failing_commit
-    mock.proxy(buildable).add_failed_build(commit_id, "Running tests...\n")
+    mock.proxy(buildable).finish_building(commit_id, false, "Running tests...\n")
     builder.build
   end
 end

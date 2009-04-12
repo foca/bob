@@ -32,21 +32,18 @@ module Bob
   #   so it would be a SHA1 hash for git repos, or a numeric id for svn, etc. This is a
   #   callback so the buildable can determine how long it takes to build. It doesn't
   #   need to return anything.
-  # * <tt>buildable.add_successful_build(commit_id, build_output)</tt>
+  # * <tt>buildable.add_build(commit_id, build_status, build_output)</tt>
   #
-  #   Called when the build finishes and is successful. It doesn't need to return 
-  #   anything.
-  # * <tt>buildable.add_failed_build(commit_id, build_output)</tt>
+  #   Callback for when the build finishes. It doesn't need to return anything. It will
+  #   receive a string with the commit identifier, a boolean for the build exit status
+  #   (true for successful builds, false fore failed ones) and a string with the build
+  #   output (both STDOUT and STDERR).
   #
-  #   Called when the build finishes and it failed. It doesn't need to return anything.
+  #   A successful build is one where the build script returns a zero status code.
   #
   # The build process is to fetch the code from the repository (determined by
   # <tt>buildable.repo_kind</tt> and <tt>buildable.repo_uri</tt>), then checkout the specified 
   # <tt>commid_ids</tt>, and finally run <tt>buildable.build_script</tt> on each.
-  #
-  # If the script returns successfully then <tt>buildable.add_successful_build</tt> will be 
-  # called. If not, <tt>buildable.add_failed_build</tt> is called instead. A successful build
-  # is one where the build script returns a zero status code.
   def self.build(buildable, *commit_ids)
     commit_ids.each do |commit_id|
       Builder.new(buildable, commit_id).build
