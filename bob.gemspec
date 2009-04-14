@@ -27,7 +27,7 @@ Gem::Specification.new do |s|
   s.files = %w(
     .gitignore
     Rakefile
-    README
+    README.rdoc
     LICENSE
     lib/bob.rb
     lib/bob/builder.rb
