@@ -14,46 +14,13 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"),
 
 require "bob"
 require "git_helper"
+require "stub_buildable"
 
 Bob.logger = Logger.new("/dev/null")
 Bob.engine = Bob::BackgroundEngines::Foreground
 Bob.directory = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 
 module TestHelpers
-  class StubBuildable
-    attr_reader :builds, :metadata
-
-    def initialize(repo_name)
-      @repo = GitHelper.git_repo(repo_name)
-      @builds = {}
-      @metadata = {}
-    end
-
-    def kind
-      :git
-    end
-
-    def uri
-      @repo.path
-    end
-
-    def branch
-      "master"
-    end
-
-    def build_script
-      "./test"
-    end
-
-    def start_building(commit_id, commit_info)
-      @metadata[commit_id] = commit_info
-    end
-
-    def finish_building(commit_id, status, output)
-      @builds[commit_id] = [status ? :successful : :failed, output]
-    end
-  end
-
   def buildable
     @buildable ||= StubBuildable.new(:test_repo)
   end
