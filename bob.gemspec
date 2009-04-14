@@ -24,20 +24,23 @@ Gem::Specification.new do |s|
     s.add_development_dependency "ruby-debug"
   end
 
-  s.files = %w(
-    .gitignore
-    Rakefile
-    README.rdoc
-    LICENSE
-    lib/bob.rb
-    lib/bob/builder.rb
-    lib/bob/scm.rb
-    lib/bob/scm/git.rb
-    lib/bob/background_engines.rb
-    lib/bob/background_engines/foreground.rb
-    test/helper.rb
-    test/helper/git_helper.rb
-    test/unit/bob_test.rb
-    test/unit/builder_test.rb
-  )
+  s.files = %w[
+.gitignore
+LICENSE
+README.rdoc
+Rakefile
+bob.gemspec
+lib/bob.rb
+lib/bob/background_engines.rb
+lib/bob/background_engines/foreground.rb
+lib/bob/builder.rb
+lib/bob/scm.rb
+lib/bob/scm/abstract.rb
+lib/bob/scm/git.rb
+lib/core_ext/object.rb
+test/bob_test.rb
+test/helper.rb
+test/helper/git_helper.rb
+test/helper/stub_buildable.rb
+]
 end
