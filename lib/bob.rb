@@ -12,8 +12,8 @@ require "bob/background_engines"
 module Bob
   # Builds the specified <tt>buildable</tt>. This object must understand
   # the API described in the README.
-  def self.build(buildable, *commit_ids)
-    commit_ids.each do |commit_id|
+  def self.build(buildable, commit_ids)
+    Array(commit_ids).each do |commit_id|
       Builder.new(buildable, commit_id).build
     end
   end
