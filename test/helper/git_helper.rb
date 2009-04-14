@@ -12,7 +12,7 @@ module GitHelper
   end
 
   class Repo
-    attr_reader :path
+    attr_reader :path, :name
 
     def initialize(name, base_dir=Bob.directory)
       @name = name
@@ -44,7 +44,7 @@ module GitHelper
       Dir.chdir(@path) do
         commits = `git log --pretty=oneline`.collect { |line| line.split(" ").first }
         commits.inject([]) do |commits, sha1|
-          format  = %Q(---%n:message: >-%n  %s%n:timestamp: %ci%n:id: %H%n:author: %n :name: %an%n :email: %ae%n)
+          format  = %Q(---%n:message: >-%n  %s%n:timestamp: %ci%n:identifier: %H%n:author: %n :name: %an%n :email: %ae%n)
           commits << YAML.load(`git show -s --pretty=format:"#{format}" #{sha1}`)
         end
       end

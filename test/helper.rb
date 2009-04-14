@@ -1,6 +1,5 @@
 require "test/unit"
 require "contest"
-require "rr"
 require "ostruct"
 
 begin
@@ -20,24 +19,15 @@ Bob.logger = Logger.new("/dev/null")
 Bob.engine = Bob::BackgroundEngines::Foreground
 Bob.directory = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 
-module TestHelpers
-  def buildable
-    @buildable ||= StubBuildable.new(:test_repo)
-  end
-
-  def reset_build_directory!
-    FileUtils.rm_rf Bob.directory if File.directory?(Bob.directory)
-    FileUtils.mkdir_p Bob.directory
-  end
-end
-
 class Test::Unit::TestCase
-  include RR::Adapters::TestUnit
   include TestHelpers
   include GitHelper
   include Bob
 
+  attr_accessor :buildable, :repo
+
   setup do
-    reset_build_directory!
+    FileUtils.rm_rf Bob.directory if File.directory?(Bob.directory)
+    FileUtils.mkdir_p Bob.directory
   end
 end

@@ -22,7 +22,7 @@ task :default => :test
 
 desc "Run unit tests"
 Rake::TestTask.new(:test) do |t|
-  t.test_files = FileList["test/unit/*_test.rb"]
+  t.test_files = FileList["test/*_test.rb"]
 end
 
 Rake::RDocTask.new do |rd|
