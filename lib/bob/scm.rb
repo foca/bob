@@ -1,3 +1,5 @@
+require "bob/scm/abstract"
+
 module Bob
   module SCM
     class CantRunCommand < RuntimeError; end
