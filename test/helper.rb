@@ -22,6 +22,4 @@ Bob.directory = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 class Test::Unit::TestCase
   include GitHelper
   include Bob
-
-  attr_accessor :buildable, :repo
 end
