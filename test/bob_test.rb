@@ -8,7 +8,7 @@ class BobTest < Test::Unit::TestCase
       @repo      = git_repo(:test_repo)
       @repo.create
       @commit_id = repo.commits.first[:identifier]
-      @buildable = StubBuildable.new(@repo.name)
+      @buildable = StubBuildable.new(@repo)
     end
 
     test "with a successful build" do

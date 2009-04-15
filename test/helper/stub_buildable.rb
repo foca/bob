@@ -1,9 +1,9 @@
 class StubBuildable
   attr_reader :builds, :metadata
 
-  def initialize(repo_name)
-    @repo = GitHelper.git_repo(repo_name)
-    @builds = {}
+  def initialize(repo)
+    @repo     = repo
+    @builds   = {}
     @metadata = {}
   end
 
