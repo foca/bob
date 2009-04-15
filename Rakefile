@@ -21,9 +21,14 @@ desc "Default: run all tests"
 task :default => :test
 
 desc "Run unit tests"
-Rake::TestTask.new(:test) do |t|
-  t.test_files = FileList["test/*_test.rb"]
-end
+task :test => ["test:git"]
+
+%w(git).each { |scm|
+  desc "Run unit tests with #{scm}"
+  task "test:#{scm}" do
+    ruby "test/bob_#{scm}_test.rb"
+  end
+}
 
 Rake::RDocTask.new do |rd|
   rd.main = "README"
