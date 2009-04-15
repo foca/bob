@@ -24,9 +24,4 @@ class Test::Unit::TestCase
   include Bob
 
   attr_accessor :buildable, :repo
-
-  setup do
-    FileUtils.rm_rf Bob.directory if File.directory?(Bob.directory)
-    FileUtils.mkdir_p Bob.directory
-  end
 end
