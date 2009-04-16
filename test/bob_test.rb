@@ -7,6 +7,8 @@ class BobTest < Test::Unit::TestCase
     setup do
       @repo      = git_repo(:test_repo)
       @repo.create
+      @repo.add_successful_commit
+
       @commit_id = repo.commits.first[:identifier]
       @buildable = BuildableStub.new(@repo)
     end

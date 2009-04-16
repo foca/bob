@@ -37,7 +37,6 @@ module GitHelper
         system 'git commit -m "First commit" &>/dev/null'
       end
 
-      add_successful_commit
     end
 
     def commits
