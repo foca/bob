@@ -28,6 +28,6 @@ end
 Rake::RDocTask.new do |rd|
   rd.main = "README"
   rd.title = "Documentation for Bob the Builder"
-  rd.rdoc_files.include("README", "LICENSE", "lib/**/*.rb")
+  rd.rdoc_files.include("README.rdoc", "LICENSE", "lib/**/*.rb")
   rd.rdoc_dir = "doc"
 end
