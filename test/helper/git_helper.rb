@@ -7,10 +7,6 @@ module TestHelper
       create
     end
 
-    def path
-      File.join(@path, ".git")
-    end
-
     def create
       destroy
       FileUtils.mkdir_p @path
