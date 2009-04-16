@@ -46,5 +46,25 @@ class BobTest < Test::Unit::TestCase
       assert_equal 3, buildable.metadata.length
       assert_equal 3, buildable.builds.length
     end
+
+    test "with a successful threaded build" do
+      old_engine = Bob.engine
+      begin
+        Thread.abort_on_exception = true
+        Bob.engine = Bob::BackgroundEngines::Threaded.new(5)
+        Bob.build(buildable, commit_id)
+        Bob.engine.wait!
+
+        status, output = buildable.builds[commit_id]
+        assert_equal :successful,          status
+        assert_equal "Running tests...\n", output
+
+        commit = buildable.metadata[commit_id]
+        assert_equal "This commit will work", commit[:message]
+        assert_equal Time.now.min,            commit[:committed_at].min
+      ensure
+        Bob.engine = old_engine
+      end
+    end
   end
 end
