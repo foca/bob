@@ -2,11 +2,6 @@ require File.dirname(__FILE__) + "/abstract_scm_helper"
 
 module TestHelper
   class GitRepo < AbstractSCMRepo
-    def initialize(name, base_dir=Bob.directory)
-      super
-      create
-    end
-
     def create
       destroy
       FileUtils.mkdir_p @path
