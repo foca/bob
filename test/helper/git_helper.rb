@@ -1,16 +1,4 @@
 module GitHelper
-  @@_git_repositories = Hash.new {|h,k| h[k] = Repo.new(k) }
-
-  def git_repo(name)
-    @@_git_repositories[name]
-  end
-  module_function :git_repo
-
-  def destroy_all_git_repos
-    @@_git_repositories.each {|n,r| r.destroy }
-    @@_git_repositories.clear
-  end
-
   class Repo
     attr_reader :path, :name
 

@@ -20,6 +20,5 @@ Bob.engine = Bob::BackgroundEngines::Foreground
 Bob.directory = File.expand_path(File.dirname(__FILE__) + "/tmp/")
 
 class Test::Unit::TestCase
-  include GitHelper
   include Bob
 end

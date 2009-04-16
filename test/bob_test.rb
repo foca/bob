@@ -5,7 +5,7 @@ class BobTest < Test::Unit::TestCase
     attr_accessor :repo, :commit_id, :buildable
 
     setup do
-      @repo      = git_repo(:test_repo)
+      @repo      = GitHelper::Repo.new(:test_repo)
       @repo.create
       @repo.add_successful_commit
 
