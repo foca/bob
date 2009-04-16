@@ -1,5 +1,5 @@
-module GitHelper
-  class Repo
+module TestHelper
+  class GitRepo
     attr_reader :path, :name
 
     def initialize(name, base_dir=Bob.directory)

@@ -1,19 +1,16 @@
 require File.dirname(__FILE__) + "/helper"
-require "svn_helper"
 
 class SVNHelperTest < Test::Unit::TestCase
-  include SVNHelper
-
   def setup
-    SVNHelper.start_server
+    SVNRepo.start_server
 
-    @repo = SVNHelper::Repo.new(:test_repo)
+    @repo = SVNRepo.new(:test_repo)
     @repo.create
   end
 
   def teardown
     sleep 2
-    SVNHelper.stop_server
+    SVNRepo.stop_server
   end
 
   test "it works, even if SVN is PITA" do

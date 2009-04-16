@@ -1,32 +1,32 @@
 require "hpricot"
 
-module SVNHelper
-  def self.pid_file
-    "/tmp/svnserve.pid"
-  end
+module TestHelper
+  class SVNRepo
+    def self.pid_file
+      "/tmp/svnserve.pid"
+    end
 
-  def self.server_root
-    "/tmp/svnserver"
-  end
+    def self.server_root
+      "/tmp/svnserver"
+    end
 
-  def self.start_server
-    FileUtils.mkdir(server_root) unless File.directory?(server_root)
+    def self.start_server
+      FileUtils.mkdir(server_root) unless File.directory?(server_root)
 
-    `svnserve -d --pid-file #{pid_file} \
-        --listen-host=0.0.0.0 --listen-port=1234 -r#{server_root}`
-  end
+      `svnserve -d --pid-file #{pid_file} \
+          --listen-host=0.0.0.0 --listen-port=1234 -r#{server_root}`
+    end
 
-  def self.stop_server
-    Process.kill("KILL", File.read(pid_file).chomp.to_i)
-  end
+    def self.stop_server
+      Process.kill("KILL", File.read(pid_file).chomp.to_i)
+    end
 
-  class Repo
     attr_reader :path, :name, :remote
 
     def initialize(name, base_dir=Bob.directory)
       @name   = name
       @path   = File.join(base_dir, @name.to_s)
-      @remote = File.join(SVNHelper.server_root, name.to_s)
+      @remote = File.join(SVNRepo.server_root, name.to_s)
     end
 
     def create
