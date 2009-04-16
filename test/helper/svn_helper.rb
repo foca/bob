@@ -1,7 +1,8 @@
+require File.dirname(__FILE__) + "/abstract_scm_helper"
 require "hpricot"
 
 module TestHelper
-  class SVNRepo
+  class SVNRepo < AbstractSCMRepo
     def self.pid_file
       "/tmp/svnserve.pid"
     end
@@ -21,11 +22,10 @@ module TestHelper
       Process.kill("KILL", File.read(pid_file).chomp.to_i)
     end
 
-    attr_reader :path, :name, :remote
+    attr_reader :remote
 
     def initialize(name, base_dir=Bob.directory)
-      @name   = name
-      @path   = File.join(base_dir, @name.to_s)
+      super
       @remote = File.join(SVNRepo.server_root, name.to_s)
     end
 
@@ -37,13 +37,13 @@ module TestHelper
 
       add_commit("First commit") do
         system "echo 'just a test repo' >> README"
-        system "svn add README"
+        add    "README"
       end
     end
 
     def destroy
       FileUtils.rm_rf(remote)
-      FileUtils.rm_rf(path)
+      super
     end
 
     def commits
@@ -62,37 +62,14 @@ module TestHelper
       commits.first[:identifier]
     end
 
-    def add_commit(message, &action)
-      Dir.chdir(@path) do
-        yield action
-        system %Q(svn commit -m "#{message}")
-        system "svn up"
-      end
-    end
-
-    def add_failing_commit
-      add_commit "This commit will fail" do
-        system %Q(echo '#{build_script(false)}' > test)
-        system %Q(chmod +x test)
-        system %Q(svn add test &>/dev/null)
-      end
-    end
-
-    def add_successful_commit
-      add_commit "This commit will work" do
-        system "echo '#{build_script(true)}' > test"
-        system "chmod +x test"
-        system "svn add test"
-      end
-    end
-
     protected
-      def build_script(successful=true)
-        <<-script
-#!/bin/sh
-echo "Running tests..."
-exit #{successful ? 0 : 1}
-script
+      def add(file)
+        system "svn add #{file}"
+      end
+
+      def commit(message)
+        system %Q{svn commit -m "#{message}"}
+        system "svn up"
       end
 
     private
