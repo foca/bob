@@ -1,14 +1,14 @@
-require File.dirname(__FILE__) + "/abstract_scm_helper"
 require "hpricot"
+require File.dirname(__FILE__) + "/abstract_scm_helper"
 
 module TestHelper
   class SVNRepo < AbstractSCMRepo
     def self.pid_file
-      "/tmp/svnserve.pid"
+      "/tmp/bob-svnserve.pid"
     end
 
     def self.server_root
-      "/tmp/svnserver"
+      "/tmp/bob-svnserver"
     end
 
     def self.start_server
@@ -27,11 +27,11 @@ module TestHelper
 
     def initialize(name, base_dir=Bob.directory)
       super
+
       @remote = File.join(SVNRepo.server_root, name.to_s)
     end
 
     def create
-      destroy
       create_remote
 
       system "svn checkout svn://0.0.0.0:1234/#{name} #{path}"
@@ -43,8 +43,8 @@ module TestHelper
     end
 
     def destroy
-      FileUtils.rm_rf(remote)
       super
+      FileUtils.rm_rf(remote)
     end
 
     def commits

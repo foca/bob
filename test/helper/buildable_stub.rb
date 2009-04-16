@@ -1,13 +1,12 @@
 module TestHelper
   module BuildableStub
-    attr_reader :builds, :metadata
+    attr_reader :repo, :builds, :metadata
 
     def initialize(repo)
       @repo     = repo
       @builds   = {}
       @metadata = {}
     end
-
 
     def build_script
       "./test"
@@ -30,11 +29,27 @@ module TestHelper
     end
 
     def uri
-      @repo.path
+      repo.path
     end
 
     def branch
       "master"
+    end
+  end
+
+  class SvnBuildableStub
+    include BuildableStub
+
+    def kind
+      :svn
+    end
+
+    def uri
+      "svn://0.0.0.0:1234/#{repo.name}"
+    end
+
+    def branch
+      ""
     end
   end
 end

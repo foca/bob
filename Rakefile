@@ -20,10 +20,12 @@ end
 desc "Default: run all tests"
 task :default => :test
 
-desc "Run unit tests"
-task :test => ["test:git"]
+SCMs = %w[git svn]
 
-%w(git).each { |scm|
+desc "Run unit tests"
+task :test => SCMs.map { |scm| "test:#{scm}" }
+
+SCMs.each { |scm|
   desc "Run unit tests with #{scm}"
   task "test:#{scm}" do
     ruby "test/bob_#{scm}_test.rb"

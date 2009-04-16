@@ -7,6 +7,7 @@ require "addressable/uri"
 require "bob/builder"
 require "bob/scm"
 require "bob/scm/git"
+require "bob/scm/svn"
 require "bob/background_engines"
 
 module Bob
