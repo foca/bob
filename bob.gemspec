@@ -41,6 +41,6 @@ lib/core_ext/object.rb
 test/bob_test.rb
 test/helper.rb
 test/helper/git_helper.rb
-test/helper/stub_buildable.rb
+test/helper/buildable_stub.rb
 ]
 end

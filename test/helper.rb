@@ -13,7 +13,7 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"),
 
 require "bob"
 require "git_helper"
-require "stub_buildable"
+require "buildable_stub"
 
 Bob.logger = Logger.new("/dev/null")
 Bob.engine = Bob::BackgroundEngines::Foreground

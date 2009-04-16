@@ -1,4 +1,4 @@
-class StubBuildable
+class BuildableStub
   attr_reader :builds, :metadata
 
   def initialize(repo)
