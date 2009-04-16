@@ -9,7 +9,7 @@ class BobGitTest < Test::Unit::TestCase
     @repo.add_successful_commit
 
     @commit_id = repo.commits.first[:identifier]
-    @buildable = BuildableStub.new(@repo)
+    @buildable = GitBuildableStub.new(@repo)
   end
 
   test "with a successful build" do

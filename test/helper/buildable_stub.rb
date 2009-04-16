@@ -1,5 +1,5 @@
 module TestHelper
-  class BuildableStub
+  module BuildableStub
     attr_reader :builds, :metadata
 
     def initialize(repo)
@@ -8,17 +8,6 @@ module TestHelper
       @metadata = {}
     end
 
-    def kind
-      :git
-    end
-
-    def uri
-      @repo.path
-    end
-
-    def branch
-      "master"
-    end
 
     def build_script
       "./test"
@@ -30,6 +19,22 @@ module TestHelper
 
     def finish_building(commit_id, status, output)
       @builds[commit_id] = [status ? :successful : :failed, output]
+    end
+  end
+
+  class GitBuildableStub
+    include BuildableStub
+
+    def kind
+      :git
+    end
+
+    def uri
+      @repo.path
+    end
+
+    def branch
+      "master"
     end
   end
 end
