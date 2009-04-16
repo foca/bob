@@ -20,6 +20,8 @@ class BobTest < Test::Unit::TestCase
       assert_equal :successful,          status
       assert_equal "Running tests...\n", output
 
+      assert_equal 1, buildable.metadata.length
+
       commit = buildable.metadata[commit_id]
       assert_equal "This commit will work", commit[:message]
       assert_equal Time.now.min,            commit[:committed_at].min
@@ -34,6 +36,8 @@ class BobTest < Test::Unit::TestCase
       status, output = buildable.builds[commit_id]
       assert_equal :failed,              status
       assert_equal "Running tests...\n", output
+
+      assert_equal 1, buildable.metadata.length
 
       commit = buildable.metadata[commit_id]
       assert_equal "This commit will fail", commit[:message]
