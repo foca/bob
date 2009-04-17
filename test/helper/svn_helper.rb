@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + "/abstract_scm_helper"
 
 module TestHelper
-  class SVNRepo < AbstractSCMRepo
+  class SvnRepo < AbstractSCMRepo
     def self.pid_file
       "/tmp/bob-svnserve.pid"
     end
@@ -27,7 +27,7 @@ module TestHelper
     def initialize(name, base_dir=Bob.directory)
       super
 
-      @remote = File.join(SVNRepo.server_root, name.to_s)
+      @remote = File.join(SvnRepo.server_root, name.to_s)
     end
 
     def create

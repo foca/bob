@@ -1,15 +1,15 @@
 require File.dirname(__FILE__) + "/helper"
 
-class BobSVNTest < Test::Unit::TestCase
+class BobSvnTest < Test::Unit::TestCase
   attr_accessor :repo, :buildable
 
   def setup
-    SVNRepo.start_server
+    SvnRepo.start_server
 
     # FIXME
     FileUtils.rm_rf "/tmp/test_repo-"
 
-    @repo = SVNRepo.new(:test_repo)
+    @repo = SvnRepo.new(:test_repo)
     @repo.destroy
     @repo.create
 
@@ -20,7 +20,7 @@ class BobSVNTest < Test::Unit::TestCase
     @repo.destroy
 
     sleep 0.5
-    SVNRepo.stop_server
+    SvnRepo.stop_server
   end
 
   test "with a successful build" do
