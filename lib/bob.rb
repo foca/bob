@@ -20,7 +20,7 @@ module Bob
   # Directory where the code for the different buildables will be checked out. Make sure
   # the user running Bob is allowed to write to this directory.
   def self.directory
-    @checkout_directory || "/tmp"
+    @directory || "/tmp"
   end
 
   # What will you use to build in background. Must respond to <tt>call</tt> and take a block
