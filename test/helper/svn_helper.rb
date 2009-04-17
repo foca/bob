@@ -7,11 +7,11 @@ module TestHelper
     end
 
     def self.server_root
-      "/tmp/bob-svnserver"
+      @root ||= File.join(Bob.directory, "svnserver")
     end
 
     def self.start_server
-      FileUtils.mkdir(server_root) unless File.directory?(server_root)
+      FileUtils.mkdir_p(server_root) unless File.directory?(server_root)
 
       `svnserve -d --pid-file #{pid_file} \
           --listen-host=0.0.0.0 --listen-port=1234 -r#{server_root} &>/dev/null`
@@ -40,11 +40,6 @@ module TestHelper
         system "echo 'just a test repo' >> README"
         add    "README"
       end
-    end
-
-    def destroy
-      super
-      FileUtils.rm_rf(remote)
     end
 
     def commits

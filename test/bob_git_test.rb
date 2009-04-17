@@ -3,7 +3,9 @@ require File.dirname(__FILE__) + "/helper"
 class BobGitTest < Test::Unit::TestCase
   attr_accessor :repo, :commit_id, :buildable
 
-  setup do
+  def setup
+    super
+
     @repo      = GitRepo.new(:test_repo)
     @repo.create
     @repo.add_successful_commit

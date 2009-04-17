@@ -4,21 +4,17 @@ class BobSvnTest < Test::Unit::TestCase
   attr_accessor :repo, :buildable
 
   def setup
+    super
+
     SvnRepo.start_server
 
-    # FIXME
-    FileUtils.rm_rf "/tmp/svn-test_repo"
-
     @repo = SvnRepo.new(:test_repo)
-    @repo.destroy
     @repo.create
 
     @buildable = SvnBuildableStub.new(@repo)
   end
 
   def teardown
-    @repo.destroy
-
     sleep 0.5
     SvnRepo.stop_server
   end

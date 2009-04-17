@@ -3,7 +3,6 @@ require File.dirname(__FILE__) + "/abstract_scm_helper"
 module TestHelper
   class GitRepo < AbstractSCMRepo
     def create
-      destroy
       FileUtils.mkdir_p @path
 
       Dir.chdir(@path) do
