@@ -7,7 +7,7 @@ class BobSvnTest < Test::Unit::TestCase
     SvnRepo.start_server
 
     # FIXME
-    FileUtils.rm_rf "/tmp/test_repo-"
+    FileUtils.rm_rf "/tmp/svn-test_repo"
 
     @repo = SvnRepo.new(:test_repo)
     @repo.destroy

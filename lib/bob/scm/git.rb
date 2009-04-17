@@ -8,6 +8,16 @@ module Bob
         end
       end
 
+      protected
+
+      def path_from_uri
+        path = uri.path.
+          gsub(/\~[a-z0-9]*\//i, ""). # remove ~foobar/
+          gsub(/\s+|\.|\//, "-").     # periods, spaces, slashes -> hyphens
+          gsub(/^-+|-+$/, "")         # remove trailing hyphens
+        path += "-#{branch}"
+      end
+
       private
 
       def update_code

@@ -27,6 +27,7 @@ module TestHelper
     def initialize(name, base_dir=Bob.directory)
       super
 
+      @path   = File.join(base_dir, "svn-#{@name}")
       @remote = File.join(SvnRepo.server_root, name.to_s)
     end
 
