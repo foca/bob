@@ -45,7 +45,7 @@ module TestHelper
     end
 
     def uri
-      "svn://0.0.0.0:1234/#{repo.name}"
+      "file://#{SvnRepo.server_root}/#{repo.name}"
     end
 
     def branch

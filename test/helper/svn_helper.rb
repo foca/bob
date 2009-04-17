@@ -2,24 +2,8 @@ require File.dirname(__FILE__) + "/abstract_scm_helper"
 
 module TestHelper
   class SvnRepo < AbstractSCMRepo
-    def self.pid_file
-      "/tmp/bob-svnserve.pid"
-    end
-
     def self.server_root
-      @root ||= File.join(Bob.directory, "svnserver")
-    end
-
-    def self.start_server
-      FileUtils.mkdir_p(server_root) unless File.directory?(server_root)
-
-      `svnserve -d --pid-file #{pid_file} \
-          --listen-host=0.0.0.0 --listen-port=1234 -r#{server_root} &>/dev/null`
-    end
-
-    def self.stop_server
-      Process.kill("KILL", File.read(pid_file).chomp.to_i)
-      File.delete(pid_file)
+      @root ||= File.join(Bob.directory, "svn")
     end
 
     attr_reader :remote
@@ -27,14 +11,14 @@ module TestHelper
     def initialize(name, base_dir=Bob.directory)
       super
 
-      @path   = File.join(base_dir, "svn-#{@name}")
+      @path   = File.join(base_dir, "svn-#{name}")
       @remote = File.join(SvnRepo.server_root, name.to_s)
     end
 
     def create
       create_remote
 
-      system "svn checkout svn://0.0.0.0:1234/#{name} #{path} &>/dev/null"
+      system "svn checkout file://#{remote} #{path} &>/dev/null"
 
       add_commit("First commit") do
         system "echo 'just a test repo' >> README"
@@ -70,6 +54,8 @@ module TestHelper
 
     private
       def create_remote
+        FileUtils.mkdir_p(SvnRepo.server_root)
+
         system "svnadmin create #{remote} &>/dev/null"
 
         File.open(File.join(remote, "conf", "svnserve.conf"), "w") { |f|

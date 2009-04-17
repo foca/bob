@@ -6,17 +6,10 @@ class BobSvnTest < Test::Unit::TestCase
   def setup
     super
 
-    SvnRepo.start_server
-
     @repo = SvnRepo.new(:test_repo)
     @repo.create
 
     @buildable = SvnBuildableStub.new(@repo)
-  end
-
-  def teardown
-    sleep 0.5
-    SvnRepo.stop_server
   end
 
   test "with a successful build" do
