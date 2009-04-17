@@ -37,8 +37,8 @@ class BobSvnTest < Test::Unit::TestCase
     assert_equal 1, buildable.metadata.length
 
     commit = buildable.metadata["2"]
+    assert commit[:committed_at].is_a?(Time)
     assert_equal "This commit will work", commit[:message]
-    assert_equal Time.now.min,            commit[:committed_at].min
   end
 
   test "with a failed build" do
@@ -54,8 +54,8 @@ class BobSvnTest < Test::Unit::TestCase
     assert_equal 1, buildable.metadata.length
 
     commit = buildable.metadata[commit_id]
+    assert commit[:committed_at].is_a?(Time)
     assert_equal "This commit will fail", commit[:message]
-    assert_equal Time.now.min,            commit[:committed_at].min
   end
 
   test "with multiple commits" do
