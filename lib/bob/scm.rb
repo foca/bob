@@ -2,6 +2,9 @@ require "bob/scm/abstract"
 
 module Bob
   module SCM
+    autoload :Git, "bob/scm/git"
+    autoload :Svn, "bob/scm/svn"
+
     class CantRunCommand < RuntimeError; end
 
     # Factory to return appropriate SCM instances (according to repository kind)
