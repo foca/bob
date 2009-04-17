@@ -20,6 +20,7 @@ module TestHelper
 
     def self.stop_server
       Process.kill("KILL", File.read(pid_file).chomp.to_i)
+      File.delete(pid_file)
     end
 
     attr_reader :remote
