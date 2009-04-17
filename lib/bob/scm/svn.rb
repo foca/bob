@@ -1,15 +1,15 @@
-require "hpricot"
 require "bob/scm/abstract"
 
 module Bob
   module SCM
     class Svn < Abstract
       def info(revision)
-        xml = %x[svn log --non-interactive --xml --revision #{revision} #{uri}]
-        doc = Hpricot::XML(xml)
+        dump = %x[svn log --non-interactive --revision #{revision} #{uri}].split("\n")
+        meta = dump[1].split(" | ")
 
-        { :message => doc.at("msg").inner_html,
-          :committed_at => Time.parse(doc.at("date").inner_html) }
+        { :message => dump[3],
+          :author  => meta[1],
+          :committed_at => Time.parse(meta[2]) }
       end
 
       def with_commit(commit_id)

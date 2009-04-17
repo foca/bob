@@ -1,4 +1,3 @@
-require "hpricot"
 require File.dirname(__FILE__) + "/abstract_scm_helper"
 
 module TestHelper
@@ -15,7 +14,7 @@ module TestHelper
       FileUtils.mkdir(server_root) unless File.directory?(server_root)
 
       `svnserve -d --pid-file #{pid_file} \
-          --listen-host=0.0.0.0 --listen-port=1234 -r#{server_root}`
+          --listen-host=0.0.0.0 --listen-port=1234 -r#{server_root} &>/dev/null`
     end
 
     def self.stop_server
@@ -34,7 +33,7 @@ module TestHelper
     def create
       create_remote
 
-      system "svn checkout svn://0.0.0.0:1234/#{name} #{path}"
+      system "svn checkout svn://0.0.0.0:1234/#{name} #{path} &>/dev/null"
 
       add_commit("First commit") do
         system "echo 'just a test repo' >> README"
@@ -65,17 +64,17 @@ module TestHelper
 
     protected
       def add(file)
-        system "svn add #{file}"
+        system "svn add #{file} &>/dev/null"
       end
 
       def commit(message)
-        system %Q{svn commit -m "#{message}"}
-        system "svn up"
+        system %Q{svn commit -m "#{message}" &>/dev/null}
+        system "svn up &>/dev/null"
       end
 
     private
       def create_remote
-        system "svnadmin create #{remote}"
+        system "svnadmin create #{remote} &>/dev/null"
 
         File.open(File.join(remote, "conf", "svnserve.conf"), "w") { |f|
           f.puts "[general]"

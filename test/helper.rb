@@ -1,6 +1,7 @@
 require "test/unit"
 require "contest"
 require "ostruct"
+require "hpricot"
 
 begin
   require "redgreen"
