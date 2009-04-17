@@ -25,7 +25,7 @@ module Bob
       end
 
       def checkout(revision)
-        run("cd #{working_dir} && svn up -q -r#{revision}")
+        run("svn up -q -r#{revision}")
       end
 
       def initial_checkout(revision=nil)
