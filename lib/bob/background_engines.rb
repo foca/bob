@@ -4,5 +4,6 @@ module Bob
   # "in the background". The different engines are:
   module BackgroundEngines
     autoload :Foreground, "bob/background_engines/foreground"
+    autoload :Threaded, "bob/background_engines/threaded"
   end
 end
