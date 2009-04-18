@@ -25,13 +25,13 @@ SCMs = %w[git svn]
 desc "Run unit tests"
 task :test => SCMs.map { |scm| "test:#{scm}" } do
   ruby "test/bob_test.rb"
-  ruby "test/bob_threaded_test.rb"
+  ruby "test/background_engine/threaded_test.rb"
 end
 
 SCMs.each { |scm|
   desc "Run unit tests with #{scm}"
   task "test:#{scm}" do
-    ruby "test/bob_#{scm}_test.rb"
+    ruby "test/scm/#{scm}_test.rb"
   end
 }
 
