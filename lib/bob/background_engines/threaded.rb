@@ -1,4 +1,5 @@
-require 'thread'
+require "thread"
+
 module Bob
   module BackgroundEngines
     class Threaded
@@ -25,27 +26,35 @@ module Bob
             @m = Mutex.new
             @v = v
           end
+
           def inc(v = 1)
             sync { @v += v }
           end
+
           def dec(v = 1)
             sync { @v -= v }
           end
+
           def inspect
             @v.inspect
           end
+
           def to_i
             @v
           end
+
           private
+
           def sync(&b)
             @m.synchronize &b
           end
         end
 
         attr_reader :size, :jobs
+
         def size=(other)
           @size = other
+
           if @workers.size > @size
             (@workers.size - @size).times do
               @workers.shift[:run] = false
@@ -59,30 +68,34 @@ module Bob
 
         def initialize(size = nil)
           size ||= 2
-          @jobs = Queue.new
-          @njobs = Incrementor.new
+          @jobs    = Queue.new
+          @njobs   = Incrementor.new
           @workers = Array.new(size) { spawn }
         end
 
         def add(*jobs, &blk)
           jobs = jobs + Array(blk)
+
           jobs.each do |job|
             @jobs << job
             @njobs.inc
           end
         end
-        alias push add
-        alias :<< add
+
+        alias_method :push, :add
+        alias_method :<<,   :add
 
         def njobs
           @njobs.to_i
         end
 
         private
+
         def spawn
           Thread.new do
             c = Thread.current
             c[:run] = true
+
             while c[:run]
               @jobs.pop.call
               @njobs.dec
