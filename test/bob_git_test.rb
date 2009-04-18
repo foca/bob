@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + "/helper"
 
 class BobGitTest < Test::Unit::TestCase
-  attr_reader :repo, :buildable
-
   def setup
     super
 

@@ -25,6 +25,8 @@ class Test::Unit::TestCase
   include Bob
   include TestHelper
 
+  attr_reader :repo, :buildable
+
   def setup
     FileUtils.rm_rf(Bob.directory)
   end

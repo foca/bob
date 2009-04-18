@@ -1,8 +1,6 @@
 require File.dirname(__FILE__) + "/helper"
 
 class BobSvnTest < Test::Unit::TestCase
-  attr_accessor :repo, :buildable
-
   def setup
     super
 
@@ -13,7 +11,7 @@ class BobSvnTest < Test::Unit::TestCase
   end
 
   test "with a successful build" do
-    @repo.add_successful_commit
+    repo.add_successful_commit
 
     Bob.build(buildable, "2")
 
