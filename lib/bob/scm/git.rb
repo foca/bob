@@ -45,10 +45,6 @@ module Bob
         git "reset --hard #{commit_id}"
       end
 
-      def reset(commit_id)
-        git "reset --hard #{commit_id}"
-      end
-
       def git(command)
         run "git #{command}"
       end
