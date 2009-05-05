@@ -13,7 +13,7 @@ end
 
 begin
   require "mg"
-  MG.new("bob.gemspec")
+  MG.new("bob-the-builder.gemspec")
 rescue LoadError
 end
 
