@@ -24,10 +24,10 @@ class Test::Unit::TestCase
   attr_reader :repo, :buildable
 
   def setup
-    FileUtils.rm_rf(Bob.directory)
-
     Bob.logger = Logger.new("/dev/null")
     Bob.engine = Bob::BackgroundEngines::Foreground
     Bob.directory = File.expand_path(File.dirname(__FILE__) + "/../tmp")
+
+    FileUtils.rm_rf(Bob.directory)
   end
 end
