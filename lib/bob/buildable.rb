@@ -42,7 +42,7 @@ module Bob
 
     # Callback sent when a build starts. The first argument is a
     # string with whatever identifier is appropriate for a repository
-    # of this kind. The second is a hash with information about the 
+    # of this kind. The second is a hash with information about the
     # commit.
     #
     # <tt>:author</tt>:: A string with the name/email of the committer
