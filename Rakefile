@@ -7,7 +7,7 @@ rescue LoadError
 end
 
 begin
-  require "metric_fu"
+  require "metric_fu" if RUBY_VERSION < "1.9"
 rescue LoadError
 end
 
