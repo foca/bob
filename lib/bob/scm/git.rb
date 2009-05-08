@@ -29,10 +29,8 @@ module Bob
       end
 
       def clone
-        git "clone #{uri} #{working_dir}"
-      rescue CantRunCommand
         FileUtils.rm_r working_dir
-        retry
+        run "git clone #{uri} #{working_dir}", false
       end
 
       def fetch

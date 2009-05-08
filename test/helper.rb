@@ -28,6 +28,6 @@ class Test::Unit::TestCase
     Bob.engine = Bob::BackgroundEngines::Foreground
     Bob.directory = File.expand_path(File.dirname(__FILE__) + "/../tmp")
 
-    FileUtils.rm_rf(Bob.directory)
+    FileUtils.rm_rf(Bob.directory) if File.directory?(Bob.directory)
   end
 end

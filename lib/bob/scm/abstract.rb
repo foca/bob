@@ -35,8 +35,8 @@ module Bob
 
       protected
 
-      def run(command)
-        command = "(cd #{working_dir} && #{command} &>/dev/null)"
+      def run(command, cd_into_working_dir=true)
+        command = "(#{cd_into_working_dir ? "cd #{working_dir} && " : ""}#{command} &>/dev/null)"
         Bob.logger.debug command
         system(command) || raise(CantRunCommand, "Couldn't run SCM command `#{command}`")
       end
