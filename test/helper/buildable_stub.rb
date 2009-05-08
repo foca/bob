@@ -1,5 +1,7 @@
 module TestHelper
   module BuildableStub
+    include Bob::Buildable
+
     attr_reader :repo, :builds, :metadata
 
     def initialize(repo)
@@ -23,7 +25,6 @@ module TestHelper
 
   class GitBuildableStub
     include BuildableStub
-    include Bob::Buildable
 
     def kind
       :git
@@ -40,7 +41,6 @@ module TestHelper
 
   class SvnBuildableStub
     include BuildableStub
-    include Bob::Buildable
 
     def kind
       :svn
