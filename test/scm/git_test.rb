@@ -13,7 +13,7 @@ class BobGitTest < Test::Unit::TestCase
   test "with a successful build" do
     repo.add_successful_commit
 
-    commit_id = repo.commits.first[:identifier]
+    commit_id = repo.commits.last[:identifier]
 
     buildable.build(commit_id)
 
@@ -31,7 +31,7 @@ class BobGitTest < Test::Unit::TestCase
   test "with a failed build" do
     repo.add_failing_commit
 
-    commit_id = repo.commits.first[:identifier]
+    commit_id = repo.commits.last[:identifier]
 
     buildable.build(commit_id)
 
@@ -48,8 +48,9 @@ class BobGitTest < Test::Unit::TestCase
 
   test "with multiple commits" do
     2.times { repo.add_failing_commit }
+    commits = repo.commits.collect { |c| c[:identifier] }
 
-    buildable.build(repo.commits.collect { |c| c[:identifier] })
+    buildable.build(commits)
 
     assert_equal 2, commits.length
     assert_equal 2, buildable.metadata.length
