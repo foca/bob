@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name    = "bob-the-builder"
-  s.version = "0.1"
-  s.date    = "2009-05-05"
+  s.version = "0.1.1"
+  s.date    = "2009-05-08"
 
   s.description = "Bob the Builder will build your code. Simple."
   s.summary     = "Bob builds!"
@@ -35,6 +35,7 @@ lib/bob/background_engines.rb
 lib/bob/background_engines/foreground.rb
 lib/bob/background_engines/threaded.rb
 lib/bob/builder.rb
+lib/bob/buildable.rb
 lib/bob/scm.rb
 lib/bob/scm/abstract.rb
 lib/bob/scm/git.rb
