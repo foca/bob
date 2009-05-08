@@ -4,6 +4,7 @@ require "logger"
 require "time"
 require "addressable/uri"
 
+require "bob/buildable"
 require "bob/builder"
 require "bob/scm"
 require "bob/background_engines"

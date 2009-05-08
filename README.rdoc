@@ -1,51 +1,23 @@
 = Bob the Builder
 
-Given a Buildable object with the following public API:
-
-* <tt>buildable.kind</tt>
-
-  Should return a Symbol with whatever kind of repository the buildable's code is
-  in (:git, :svn, etc).
-
-* <tt>buildable.uri</tt>
-
-  Returns a string like "git://github.com/integrity/bob.git", pointing to the code
-  repository.
-
-* <tt>buildable.branch</tt>
-
-  What branch of the repository should we build?
-
-* <tt>buildable.build_script</tt>
-
-  Returns a string containing the build script to be run when "building".
-
-* <tt>buildable.start_building(commit_id)</tt>
-
-  `commit_id` is a String that contains whatever is appropriate for the repo type,
-  so it would be a SHA1 hash for git repos, or a numeric id for svn, etc. This is a
-  callback so the buildable can determine how long it takes to build. It doesn't
-  need to return anything.
-
-* <tt>buildable.finish_building(commit_id, build_status, build_output)</tt>
-
-  Callback for when the build finishes. It doesn't need to return anything. It will
-  receive a string with the commit identifier, a boolean for the build exit status
-  (true for successful builds, false fore failed ones) and a string with the build
-  output (both STDOUT and STDERR).
-
-  A successful build is one where the build script returns a zero status code.
-
+Given a Buildable object with a determined API (described in it's documentation), 
 Bob will, when called like:
 
-    Bob.build(buildable, commit_id)
+    Bob.build(buildable, commit_id) # or Bob.build(buildable, [commit_id, commit_id, ...])
+
+or from your buildable (if you are using the Bob::Buildable mixin provided) as:
+
+    buildable.build(commit_id) # or buildable.build([commit_id, commit_id, ...])
 
 1. Checkout the buildable on the specified commit
-2. Call <tt>buildable.start_building</tt>
-3. Run the script provided in <tt>build_script</tt> in the buildable.
-4. When the build process finishes, it will call <tt>finish_building</tt> with
+2. Call <tt>Buildable#start_building</tt>
+3. Run the script provided in <tt>Buildable#build_script</tt> in the buildable.
+4. When the build process finishes, it will call <tt>Buildable#finish_building</tt> with
    the commit_id, the build status (true if the script returns a status code
    of 0, false otherwise), and a string with the build output (both STDOUT and STDERR).
+
+If you pass an array of commits, the steps 1-4 will be repeated for each commit provided,
+in order.
 
 == Do I need this?
 

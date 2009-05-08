@@ -13,7 +13,7 @@ class BobSvnTest < Test::Unit::TestCase
   test "with a successful build" do
     repo.add_successful_commit
 
-    Bob.build(buildable, "2")
+    buildable.build("2")
 
     assert_equal 1, buildable.metadata.length
 
@@ -32,7 +32,7 @@ class BobSvnTest < Test::Unit::TestCase
     repo.add_failing_commit
     commit_id = repo.commits.first[:identifier]
 
-    Bob.build(buildable, commit_id)
+    buildable.build(commit_id)
 
     status, output = buildable.builds[commit_id]
     assert_equal :failed,              status
@@ -49,7 +49,7 @@ class BobSvnTest < Test::Unit::TestCase
     repo.add_successful_commit
     2.times { repo.add_failing_commit }
 
-    Bob.build(buildable, repo.commits.collect { |c| c[:identifier] })
+    buildable.build(repo.commits.collect { |c| c[:identifier] })
 
     assert_equal 3, buildable.metadata.length
     assert_equal 3, buildable.builds.length

@@ -4,7 +4,7 @@ class BobGitTest < Test::Unit::TestCase
   def setup
     super
 
-    @repo      = GitRepo.new(:test_repo)
+    @repo = GitRepo.new(:test_repo)
     @repo.create
 
     @buildable = GitBuildableStub.new(@repo)
@@ -15,7 +15,7 @@ class BobGitTest < Test::Unit::TestCase
 
     commit_id = repo.commits.first[:identifier]
 
-    Bob.build(buildable, commit_id)
+    buildable.build(commit_id)
 
     status, output = buildable.builds[commit_id]
     assert_equal :successful,          status
@@ -33,7 +33,7 @@ class BobGitTest < Test::Unit::TestCase
 
     commit_id = repo.commits.first[:identifier]
 
-    Bob.build(buildable, commit_id)
+    buildable.build(commit_id)
 
     status, output = buildable.builds[commit_id]
     assert_equal :failed,              status
@@ -48,9 +48,8 @@ class BobGitTest < Test::Unit::TestCase
 
   test "with multiple commits" do
     2.times { repo.add_failing_commit }
-    commits = repo.commits.collect { |c| c[:identifier] }
 
-    Bob.build(buildable, commits)
+    buildable.build(repo.commits.collect { |c| c[:identifier] })
 
     assert_equal 2, commits.length
     assert_equal 2, buildable.metadata.length

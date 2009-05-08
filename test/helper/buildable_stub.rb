@@ -23,6 +23,7 @@ module TestHelper
 
   class GitBuildableStub
     include BuildableStub
+    include Bob::Buildable
 
     def kind
       :git
@@ -39,6 +40,7 @@ module TestHelper
 
   class SvnBuildableStub
     include BuildableStub
+    include Bob::Buildable
 
     def kind
       :svn
