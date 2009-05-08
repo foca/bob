@@ -25,7 +25,7 @@ class BobGitTest < Test::Unit::TestCase
 
     commit = buildable.metadata[commit_id]
     assert_equal "This commit will work", commit[:message]
-    assert_equal Time.now.min,            commit[:committed_at].min
+    assert commit[:committed_at].is_a?(Time)
   end
 
   test "with a failed build" do
@@ -43,7 +43,7 @@ class BobGitTest < Test::Unit::TestCase
 
     commit = buildable.metadata[commit_id]
     assert_equal "This commit will fail", commit[:message]
-    assert_equal Time.now.min,            commit[:committed_at].min
+    assert commit[:committed_at].is_a?(Time)
   end
 
   test "with multiple commits" do
