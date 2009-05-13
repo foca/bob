@@ -12,6 +12,11 @@ module Bob
           :committed_at => Time.parse(meta[2]) }
       end
 
+      def head
+        %x[svn info #{uri}].split("\n").detect {|line| line =~ /^Revision: (\d+)/ }
+        $1.to_s
+      end
+
       def with_commit(commit_id)
         update_code
         checkout(commit_id)

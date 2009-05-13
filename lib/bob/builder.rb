@@ -2,8 +2,14 @@ module Bob
   # A Builder will take care of building a buildable (wow, you didn't see that coming,
   # right?).
   class Builder
-    attr_reader :buildable, :commit_id
+    attr_reader :buildable
 
+    # Instantiate the Builder, passing an object that understands the <tt>Buildable</tt>
+    # interface, and a <tt>commit_id</tt>.
+    #
+    # You can pass <tt>:head</tt> as the commit id, in which case it will resolve to the
+    # head commit of the current branch (for example, "HEAD" under git, or the latest
+    # revision under svn)
     def initialize(buildable, commit_id)
       @buildable = buildable
       @commit_id = commit_id
@@ -27,6 +33,10 @@ module Bob
     end
 
     private
+
+    def commit_id
+      @commit_id == :head ? scm.head : @commit_id
+    end
 
     def run_build_script
       build_output = nil

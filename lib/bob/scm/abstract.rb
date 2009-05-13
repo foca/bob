@@ -8,16 +8,17 @@ module Bob
         @branch = branch
       end
 
-      # Checkout the code into <tt>working_dir</tt> at the specified revision and
-      # call the passed block
+      # Checkout the code into <tt>working_dir</tt> at the specified revision
+      # and call the passed block
       def with_commit(commit_id)
         update_code
         checkout(commit_id)
         yield
       end
 
-      # Directory where the code will be checked out. Make sure the user running Bob is
-      # allowed to write to this directory (or you'll get a <tt>Errno::EACCESS</tt>)
+      # Directory where the code will be checked out. Make sure the user 
+      # running Bob is allowed to write to this directory (or you'll get a 
+      # <tt>Errno::EACCESS</tt>)
       def working_dir
         @working_dir ||= "#{Bob.directory}/#{path_from_uri}".tap do |path|
           FileUtils.mkdir_p path
@@ -33,10 +34,17 @@ module Bob
         raise NotImplementedError
       end
 
+      # Return the identifier for the last commit in this branch of the
+      # repository.
+      def head
+        raise NotImplementedError
+      end
+
       protected
 
       def run(command, cd_into_working_dir=true)
-        command = "(#{cd_into_working_dir ? "cd #{working_dir} && " : ""}#{command} &>/dev/null)"
+        command_prefix = cd_into_working_dir ? "cd #{working_dir} && " : ""
+        command = "(#{command_prefix}#{command} &>/dev/null)"
         Bob.logger.debug command
         system(command) || raise(CantRunCommand, "Couldn't run SCM command `#{command}`")
       end

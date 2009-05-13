@@ -54,4 +54,17 @@ class BobSvnTest < Test::Unit::TestCase
     assert_equal 3, buildable.metadata.length
     assert_equal 3, buildable.builds.length
   end
+
+  test "can build the head of a repository" do
+    repo.add_failing_commit
+    repo.add_successful_commit
+
+    buildable.build(:head)
+
+    assert_equal 1, buildable.builds.length
+
+    status, output = buildable.builds["3"]
+    assert_equal :successful,          status
+    assert_equal "Running tests...\n", output
+  end
 end

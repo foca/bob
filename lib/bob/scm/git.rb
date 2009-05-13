@@ -8,6 +8,10 @@ module Bob
         end
       end
 
+      def head
+        `git ls-remote --heads #{uri} #{branch} | cut -f1`.chomp
+      end
+
       protected
 
       def path_from_uri
