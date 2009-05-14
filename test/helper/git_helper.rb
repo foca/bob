@@ -17,7 +17,7 @@ module TestHelper
 
     def commits
       Dir.chdir(@path) do
-        commits = `git log --pretty=oneline`.each_line.collect { |l| l.split(" ").first }
+        commits = `git log --pretty=oneline`.split(/\n/).collect { |l| l.split(" ").first }
         commits.inject([]) do |commits, sha1|
           format  = "---%n:message: >-%n  %s%n:timestamp: %ci%n" +
             ":identifier: %H%n:author: %n :name: %an%n :email: %ae%n"
