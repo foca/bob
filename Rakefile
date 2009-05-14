@@ -1,9 +1,10 @@
 require "rake/testtask"
 
+rdoc_sources = %w(hanna/rdoctask rdoc/task rake/rdoctask)
 begin
-  require "hanna/rdoctask"
+  require rdoc_sources.shift
 rescue LoadError
-  require "rake/rdoctask"
+  retry
 end
 
 begin
@@ -35,8 +36,8 @@ SCMs.each { |scm|
   end
 }
 
-Rake::RDocTask.new do |rd|
-  rd.main = "README"
+(defined?(RDoc::Task) ? RDoc::Task : Rake::RDocTask).new do |rd|
+  rd.main = "README.rdoc"
   rd.title = "Documentation for Bob the Builder"
   rd.rdoc_files.include("README.rdoc", "LICENSE", "lib/**/*.rb")
   rd.rdoc_dir = "doc"
