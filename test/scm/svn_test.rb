@@ -7,7 +7,7 @@ class BobSvnTest < Test::Unit::TestCase
     @repo = SvnRepo.new(:test_repo)
     @repo.create
 
-    @buildable = SvnBuildableStub.new(@repo)
+    @buildable = BuildableStub.from(@repo)
   end
 
   def path(uri)
@@ -48,17 +48,16 @@ class BobSvnTest < Test::Unit::TestCase
 
   test "with a failed build" do
     repo.add_failing_commit
-    commit_id = repo.commits.first[:identifier]
 
-    buildable.build(commit_id)
+    buildable.build("2")
 
-    status, output = buildable.builds[commit_id]
+    status, output = buildable.builds["2"]
     assert_equal :failed,              status
     assert_equal "Running tests...\n", output
 
     assert_equal 1, buildable.metadata.length
 
-    commit = buildable.metadata[commit_id]
+    commit = buildable.metadata["2"]
     assert commit[:committed_at].is_a?(Time)
     assert_equal "This commit will fail", commit[:message]
   end

@@ -4,17 +4,17 @@ class ThreadedBobTest < Test::Unit::TestCase
   def setup
     super
 
-    @repo      = GitRepo.new(:test_repo)
+    @repo = GitRepo.new(:test_repo)
     @repo.create
 
-    @buildable = GitBuildableStub.new(@repo)
+    @buildable = BuildableStub.from(@repo)
   end
 
   test "with a successful threaded build" do
     old_engine = Bob.engine
 
     repo.add_successful_commit
-    commit_id = repo.commits.first[:identifier]
+    commit_id = repo.commits.last[:identifier]
 
     begin
       Thread.abort_on_exception = true

@@ -19,14 +19,12 @@ $LOAD_PATH.unshift(File.expand_path(File.dirname(__FILE__) + "/../lib"),
                    File.expand_path(File.dirname(__FILE__) + "/../test/helper"))
 
 require "bob"
-require "git_helper"
-require "svn_helper"
-require "buildable_stub"
+require "bob/test"
 
 
 class Test::Unit::TestCase
   include Bob
-  include TestHelper
+  include Bob::Test
 
   attr_reader :repo, :buildable
 
