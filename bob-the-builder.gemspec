@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
 
   if s.respond_to?(:add_development_dependency)
     s.add_development_dependency "sr-mg"
+    s.add_development_dependency "sr-bob-test"
     s.add_development_dependency "contest"
     s.add_development_dependency "redgreen"
     s.add_development_dependency "ruby-debug"
