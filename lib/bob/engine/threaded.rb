@@ -1,11 +1,10 @@
 require "thread"
 
 module Bob
-  module BackgroundEngines
+  module Engine
     # A thread pool based build engine. This engine simply adds jobs to an
     # in-memory queue, and processes them as soon as possible.
     class Threaded
-
       # The optional pool size controls how many threads will be created.
       def initialize(pool_size = 2)
         @pool = ThreadPool.new(pool_size)

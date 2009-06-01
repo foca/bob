@@ -7,7 +7,7 @@ require "addressable/uri"
 require "bob/buildable"
 require "bob/builder"
 require "bob/scm"
-require "bob/background_engines"
+require "bob/engine"
 require "core_ext/object"
 
 module Bob
@@ -42,7 +42,7 @@ module Bob
   # take a block which will be run "in background". The default is to run in
   # foreground.
   def self.engine
-    @engine || BackgroundEngines::Foreground
+    @engine || Engine::Foreground
   end
 
   # What to log with (must implement ruby's Logger interface). Logs to STDOUT

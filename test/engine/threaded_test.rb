@@ -18,7 +18,7 @@ class ThreadedBobTest < Test::Unit::TestCase
 
     begin
       Thread.abort_on_exception = true
-      Bob.engine = Bob::BackgroundEngines::Threaded.new(5)
+      Bob.engine = Bob::Engine::Threaded.new(5)
       Bob.build(buildable, commit_id)
       Bob.engine.wait!
 

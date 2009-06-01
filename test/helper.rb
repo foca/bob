@@ -22,7 +22,7 @@ class Test::Unit::TestCase
 
   def setup
     Bob.logger = Logger.new("/dev/null")
-    Bob.engine = Bob::BackgroundEngines::Foreground
+    Bob.engine = Bob::Engine::Foreground
     Bob.directory = File.expand_path(File.dirname(__FILE__) + "/../tmp")
 
     FileUtils.rm_rf(Bob.directory) if File.directory?(Bob.directory)
