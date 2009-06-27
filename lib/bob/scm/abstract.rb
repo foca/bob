@@ -50,7 +50,10 @@ module Bob
       end
 
       def path_from_uri
-        raise NotImplementedError
+        @path ||= uri.to_s.
+          gsub(/[^\w_ \-]+/i, '-'). # Remove unwanted chars.
+          gsub(/[ \-]+/i, '-').     # No more than one of the separator in a row.
+          gsub(/^\-|\-$/i, '')      # Remove leading/trailing separator.
       end
     end
   end
