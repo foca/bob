@@ -10,6 +10,17 @@ class BobGitTest < Test::Unit::TestCase
     @buildable = GitBuildableStub.new(@repo)
   end
 
+  def path(uri, branch="master")
+    SCM::Git.new(uri, branch).__send__(:path_from_uri)
+  end
+
+  test "converts repo uri into a path" do
+    assert_equal "integrity-bob-master",path("git://github.com/integrity/bob")
+    assert_equal "repo-git-master",     path("git@example.org:~foo/repo.git")
+    assert_equal "tmp-repo-git-master", path("/tmp/repo.git")
+    assert_equal "tmp-repo-git-foo",    path("/tmp/repo.git", "foo")
+  end
+
   test "with a successful build" do
     repo.add_successful_commit
 
