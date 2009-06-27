@@ -16,8 +16,8 @@ module Bob
         yield
       end
 
-      # Directory where the code will be checked out. Make sure the user 
-      # running Bob is allowed to write to this directory (or you'll get a 
+      # Directory where the code will be checked out. Make sure the user
+      # running Bob is allowed to write to this directory (or you'll get a
       # <tt>Errno::EACCESS</tt>)
       def working_dir
         @working_dir ||= "#{Bob.directory}/#{path_from_uri}".tap do |path|
