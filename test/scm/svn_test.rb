@@ -10,8 +10,8 @@ class BobSvnTest < Test::Unit::TestCase
     @buildable = SvnBuildableStub.new(@repo)
   end
 
-  def path(uri, branch="master")
-    SCM::Svn.new(uri, branch).__send__(:path_from_uri)
+  def path(uri)
+    SCM::Svn.new(uri, "").__send__(:path)
   end
 
   test "converts svn repo uri into a path" do

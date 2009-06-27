@@ -12,12 +12,6 @@ module Bob
         `git ls-remote --heads #{uri} #{branch} | cut -f1`.chomp
       end
 
-      protected
-
-      def path_from_uri
-        @path ||= super + "-#{branch}"
-      end
-
       private
 
       def update_code

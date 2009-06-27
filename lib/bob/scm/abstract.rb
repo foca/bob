@@ -20,9 +20,9 @@ module Bob
       # running Bob is allowed to write to this directory (or you'll get a
       # <tt>Errno::EACCESS</tt>)
       def working_dir
-        @working_dir ||= "#{Bob.directory}/#{path_from_uri}".tap do |path|
-          FileUtils.mkdir_p path
-        end
+        @working_dir ||= "#{Bob.directory}/#{path}".tap { |dir|
+          FileUtils.mkdir_p(dir)
+        }
       end
 
       # Get some information about the specified commit. Returns a hash with:
@@ -49,8 +49,8 @@ module Bob
         system(command) || raise(CantRunCommand, "Couldn't run SCM command `#{command}`")
       end
 
-      def path_from_uri
-        @path ||= uri.to_s.
+      def path
+        @path ||= "#{uri}-#{branch}".
           gsub(/[^\w_ \-]+/i, '-'). # Remove unwanted chars.
           gsub(/[ \-]+/i, '-').     # No more than one of the separator in a row.
           gsub(/^\-|\-$/i, '')      # Remove leading/trailing separator.

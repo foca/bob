@@ -11,7 +11,7 @@ class BobGitTest < Test::Unit::TestCase
   end
 
   def path(uri, branch="master")
-    SCM::Git.new(uri, branch).__send__(:path_from_uri)
+    SCM::Git.new(uri, branch).__send__(:path)
   end
 
   test "converts repo uri into a path" do
