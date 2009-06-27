@@ -23,12 +23,6 @@ module Bob
         yield
       end
 
-    protected
-
-      def path_from_uri
-        "svn-#{uri.path[1..-1]}"
-      end
-
     private
 
       def update_code
