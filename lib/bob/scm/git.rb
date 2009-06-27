@@ -29,7 +29,6 @@ module Bob
       end
 
       def clone
-        FileUtils.rm_r working_dir
         run "git clone #{uri} #{working_dir}", false
       end
 
