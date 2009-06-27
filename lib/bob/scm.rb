@@ -5,7 +5,7 @@ module Bob
     autoload :Git, "bob/scm/git"
     autoload :Svn, "bob/scm/svn"
 
-    class CantRunCommand < RuntimeError; end
+    class Error < RuntimeError; end
 
     # Factory to return appropriate SCM instances (according to repository kind)
     def self.new(kind, uri, branch)

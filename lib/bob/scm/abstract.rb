@@ -45,7 +45,7 @@ module Bob
       def run(command, cd=true)
         command = "(#{cd ? "cd #{working_dir} && " : ""}#{command} &>/dev/null)"
         Bob.logger.debug(command)
-        system(command) || raise(CantRunCommand, "Couldn't run SCM command `#{command}`")
+        system(command) || raise(Error, "Couldn't run SCM command `#{command}`")
       end
 
       def path
