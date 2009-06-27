@@ -23,12 +23,13 @@ module Bob
     # 4. Reports the build back to the buildable.
     def build
       Bob.logger.info "Building #{commit_id} of the #{buildable.kind} repo at #{buildable.uri}"
+
       in_background do
-        scm.with_commit(commit_id) do
+        scm.with_commit(commit_id) {
           buildable.start_building(commit_id, scm.info(commit_id))
           build_status, build_output = run_build_script
           buildable.finish_building(commit_id, build_status, build_output)
-        end
+        }
       end
     end
 
@@ -41,7 +42,7 @@ module Bob
     def run_build_script
       build_output = nil
 
-      Bob.logger.debug "Running the build script for #{buildable.uri}"
+      Bob.logger.debug("Running the build script for #{buildable.uri}")
       IO.popen(build_script, "r") { |output| build_output = output.read }
       Bob.logger.debug("Ran build script `#{build_script}` and got:\n#{build_output}")
 

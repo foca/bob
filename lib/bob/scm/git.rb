@@ -3,9 +3,9 @@ module Bob
     class Git < Abstract
       def info(commit_id)
         format  = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
-        YAML.load(`cd #{working_dir} && git show -s --pretty=format:"#{format}" #{commit_id}`).tap do |info|
+        YAML.load(`cd #{working_dir} && git show -s --pretty=format:"#{format}" #{commit_id}`).tap { |info|
           info[:committed_at] = Time.parse(info[:committed_at])
-        end
+        }
       end
 
       def head
