@@ -7,7 +7,7 @@ class BobGitTest < Test::Unit::TestCase
     @repo = GitRepo.new(:test_repo)
     @repo.create
 
-    @buildable = BuildableStub.from(@repo)
+    @buildable = BuildableStub.call(@repo)
   end
 
   def path(uri, branch="master")

@@ -7,7 +7,7 @@ class ThreadedBobTest < Test::Unit::TestCase
     @repo = GitRepo.new(:test_repo)
     @repo.create
 
-    @buildable = BuildableStub.from(@repo)
+    @buildable = BuildableStub.call(@repo)
   end
 
   test "with a successful threaded build" do

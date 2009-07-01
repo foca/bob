@@ -7,7 +7,7 @@ class BobSvnTest < Test::Unit::TestCase
     @repo = SvnRepo.new(:test_repo)
     @repo.create
 
-    @buildable = BuildableStub.from(@repo)
+    @buildable = BuildableStub.call(@repo)
   end
 
   def path(uri)
