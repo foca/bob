@@ -13,7 +13,7 @@ module Bob
     # return a Symbol (:git, :svn, etc.)
     #
     # <b>You must implement this in the classes where you mixin this module</b>
-    def kind
+    def scm
       raise NotImplementedError
     end
 

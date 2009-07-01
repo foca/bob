@@ -22,7 +22,7 @@ module Bob
     # 3. Run the build script on it in the background.
     # 4. Reports the build back to the buildable.
     def build
-      Bob.logger.info "Building #{commit_id} of the #{buildable.kind} repo at #{buildable.uri}"
+      Bob.logger.info "Building #{commit_id} of the #{buildable.scm} repo at #{buildable.uri}"
 
       in_background do
         scm.with_commit(commit_id) {
@@ -54,7 +54,7 @@ module Bob
     end
 
     def scm
-      @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
+      @scm ||= SCM.new(buildable.scm, buildable.uri, buildable.branch)
     end
 
     def in_background(&block)
