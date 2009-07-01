@@ -4,7 +4,7 @@ module Bob
   module SCM
     class Svn < Abstract
       def info(revision)
-        dump = %x[svn log --non-interactive --revision #{revision} #{uri}].split("\n")
+        dump = `svn log --non-interactive --revision #{revision} #{uri}`.split("\n")
         meta = dump[1].split(" | ")
 
         { :message => dump[3],
@@ -13,7 +13,7 @@ module Bob
       end
 
       def head
-        %x[svn info #{uri}].split("\n").detect {|line| line =~ /^Revision: (\d+)/ }
+        `svn info #{uri}`.split("\n").detect { |l| l =~ /^Revision: (\d+)/ }
         $1.to_s
       end
 

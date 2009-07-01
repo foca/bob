@@ -4,7 +4,7 @@ module Bob
       attr_reader :uri, :branch
 
       def initialize(uri, branch)
-        @uri = Addressable::URI.parse(uri)
+        @uri    = Addressable::URI.parse(uri)
         @branch = branch
       end
 

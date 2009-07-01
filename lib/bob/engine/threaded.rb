@@ -30,7 +30,6 @@ module Bob
       # Simply processes work added to it's queue via #push.
       # The default size for the pool is 2 threads.
       class ThreadPool
-
         # A thread safe single value for use as a counter.
         class Incrementor
           # The value passed in will be the initial value.
@@ -38,24 +37,29 @@ module Bob
             @m = Mutex.new
             @v = v
           end
+
           # Add the given value to self, default 1.
           def inc(v = 1)
             sync { @v += v }
           end
+
           # Subtract the given value to self, default 1.
           def dec(v = 1)
             sync { @v -= v }
           end
+
           # Simply shows the value inspect for convenience.
           def inspect
             @v.inspect
           end
+
           # Extract the value.
           def to_i
             @v
           end
 
           private
+
           # Wrap the given block in a mutex.
           def sync(&b)
             @m.synchronize &b
@@ -64,6 +68,7 @@ module Bob
 
         # The number of threads in the pool.
         attr_reader :size
+
         # The job queue.
         attr_reader :jobs
 
@@ -113,6 +118,7 @@ module Bob
         end
 
         private
+
         # Create a new thread and return it. The thread will run until the
         # thread-local value +:run+ is changed to false or nil.
         def spawn

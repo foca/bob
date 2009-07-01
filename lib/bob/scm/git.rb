@@ -31,7 +31,8 @@ module Bob
       end
 
       def checkout(commit_id)
-        # First checkout the branch just in case the commit_id turns out to be HEAD or other non-sha identifier
+        # First checkout the branch just in case the commit_id
+        # turns out to be HEAD or other non-sha identifier
         git "checkout origin/#{branch}"
         git "reset --hard #{commit_id}"
       end
