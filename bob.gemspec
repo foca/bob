@@ -1,5 +1,5 @@
 Gem::Specification.new do |s|
-  s.name    = "bob-the-builder"
+  s.name    = "bob"
   s.version = "0.1.1"
   s.date    = "2009-05-08"
 
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.email   = "info@integrityapp.com"
 
   s.require_paths     = ["lib"]
-  s.rubyforge_project = "bob-the-builder"
+  s.rubyforge_project = "integrity"
   s.has_rdoc          = true
   s.rubygems_version  = "1.3.1"
 
@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
 LICENSE
 README.rdoc
 Rakefile
-bob-the-builder.gemspec
+bob.gemspec
 lib/bob.rb
 lib/bob/buildable.rb
 lib/bob/builder.rb
