@@ -19,7 +19,6 @@ Gem::Specification.new do |s|
 
   if s.respond_to?(:add_development_dependency)
     s.add_development_dependency "sr-mg"
-    s.add_development_dependency "sr-bob-test"
     s.add_development_dependency "contest"
     s.add_development_dependency "redgreen"
     s.add_development_dependency "ruby-debug"
@@ -41,11 +40,17 @@ lib/bob/scm.rb
 lib/bob/scm/abstract.rb
 lib/bob/scm/git.rb
 lib/bob/scm/svn.rb
+lib/bob/test.rb
+lib/bob/test/buildable_stub.rb
+lib/bob/test/scm/abstract.rb
+lib/bob/test/scm/git.rb
+lib/bob/test/scm/svn.rb
 lib/core_ext/object.rb
 test/bob_test.rb
 test/engine/threaded_test.rb
 test/helper.rb
 test/scm/git_test.rb
 test/scm/svn_test.rb
+test/test_test.rb
 ]
 end
