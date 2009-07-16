@@ -1,18 +1,13 @@
 module Bob
-  # A Builder will take care of building a buildable (wow, you didn't see that coming,
-  # right?).
+  # A Builder will take care of building a buildable (wow, you didn't see
+  # that coming, right?).
   class Builder
     attr_reader :buildable
 
-    # Instantiate the Builder, passing an object that understands the <tt>Buildable</tt>
-    # interface, and a <tt>commit_id</tt>.
-    #
-    # You can pass <tt>:head</tt> as the commit id, in which case it will resolve to the
-    # head commit of the current branch (for example, "HEAD" under git, or the latest
-    # revision under svn)
-    def initialize(buildable, commit_id)
+    # Instantiate the Builder, passing an object that understands
+    # the <tt>Buildable</tt> interface.
+    def initialize(buildable)
       @buildable = buildable
-      @commit_id = commit_id
     end
 
     # This is where the magic happens:
@@ -22,21 +17,21 @@ module Bob
     # 3. Run the build script on it in the background.
     # 4. Reports the build back to the buildable.
     def build
-      Bob.logger.info "Building #{commit_id} of the #{buildable.scm} repo at #{buildable.uri}"
+      Bob.logger.info "Building #{buildable.commit} of the #{buildable.scm} repo at #{buildable.uri}"
 
       in_background do
-        scm.with_commit(commit_id) {
-          buildable.start_building(commit_id, scm.info(commit_id))
+        scm.with_commit(commit) {
+          buildable.start_building(commit, scm.info(commit))
           build_status, build_output = run_build_script
-          buildable.finish_building(commit_id, build_status, build_output)
+          buildable.finish_building(commit, build_status, build_output)
         }
       end
     end
 
     private
 
-    def commit_id
-      @commit_id == :head ? scm.head : @commit_id
+    def commit
+      @commit ||= buildable.commit == :head ? scm.head : buildable.commit
     end
 
     def run_build_script

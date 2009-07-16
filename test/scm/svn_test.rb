@@ -6,8 +6,6 @@ class BobSvnTest < Test::Unit::TestCase
 
     @repo = SvnRepo.new(:test_repo)
     @repo.create
-
-    @buildable = BuildableStub.call(@repo)
   end
 
   def path(uri)
@@ -31,7 +29,8 @@ class BobSvnTest < Test::Unit::TestCase
   test "with a successful build" do
     repo.add_successful_commit
 
-    buildable.build("2")
+    buildable = BuildableStub.call(@repo, "2")
+    buildable.build
 
     assert_equal 1, buildable.metadata.length
 
@@ -49,7 +48,8 @@ class BobSvnTest < Test::Unit::TestCase
   test "with a failed build" do
     repo.add_failing_commit
 
-    buildable.build("2")
+    buildable = BuildableStub.call(@repo, "2")
+    buildable.build
 
     status, output = buildable.builds["2"]
     assert_equal :failed,              status
@@ -62,21 +62,12 @@ class BobSvnTest < Test::Unit::TestCase
     assert_equal "This commit will fail", commit[:message]
   end
 
-  test "with multiple commits" do
-    repo.add_successful_commit
-    2.times { repo.add_failing_commit }
-
-    buildable.build(repo.commits.collect { |c| c[:identifier] })
-
-    assert_equal 3, buildable.metadata.length
-    assert_equal 3, buildable.builds.length
-  end
-
   test "can build the head of a repository" do
     repo.add_failing_commit
     repo.add_successful_commit
 
-    buildable.build(:head)
+    buildable = BuildableStub.call(@repo, :head)
+    buildable.build
 
     assert_equal 1, buildable.builds.length
 

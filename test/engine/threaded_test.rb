@@ -6,8 +6,6 @@ class ThreadedBobTest < Test::Unit::TestCase
 
     @repo = GitRepo.new(:test_repo)
     @repo.create
-
-    @buildable = BuildableStub.call(@repo)
   end
 
   test "with a successful threaded build" do
@@ -15,11 +13,12 @@ class ThreadedBobTest < Test::Unit::TestCase
 
     repo.add_successful_commit
     commit_id = repo.commits.last[:identifier]
+    buildable = BuildableStub.call(@repo, commit_id)
 
     begin
       Thread.abort_on_exception = true
       Bob.engine = Bob::Engine::Threaded.new(5)
-      Bob.build(buildable, commit_id)
+      buildable.build
       Bob.engine.wait!
 
       status, output = buildable.builds[commit_id]

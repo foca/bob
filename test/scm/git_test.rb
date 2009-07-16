@@ -6,8 +6,6 @@ class BobGitTest < Test::Unit::TestCase
 
     @repo = GitRepo.new(:test_repo)
     @repo.create
-
-    @buildable = BuildableStub.call(@repo)
   end
 
   def path(uri, branch="master")
@@ -28,7 +26,8 @@ class BobGitTest < Test::Unit::TestCase
 
     commit_id = repo.commits.last[:identifier]
 
-    buildable.build(commit_id)
+    buildable = BuildableStub.call(@repo, commit_id)
+    buildable.build
 
     status, output = buildable.builds[commit_id]
     assert_equal :successful,          status
@@ -45,8 +44,9 @@ class BobGitTest < Test::Unit::TestCase
     repo.add_failing_commit
 
     commit_id = repo.commits.last[:identifier]
+    buildable = BuildableStub.call(@repo, commit_id)
 
-    buildable.build(commit_id)
+    buildable.build
 
     status, output = buildable.builds[commit_id]
     assert_equal :failed,              status
@@ -59,22 +59,13 @@ class BobGitTest < Test::Unit::TestCase
     assert commit[:committed_at].is_a?(Time)
   end
 
-  test "with multiple commits" do
-    2.times { repo.add_failing_commit }
-    commits = repo.commits.collect { |c| c[:identifier] }
-
-    buildable.build(commits)
-
-    assert_equal 2, commits.length
-    assert_equal 2, buildable.metadata.length
-    assert_equal 2, buildable.builds.length
-  end
-
   test "can build the head of a repository" do
     repo.add_failing_commit
     repo.add_successful_commit
 
-    buildable.build(:head)
+    buildable = BuildableStub.call(@repo, :head)
+
+    buildable.build
 
     assert_equal 1, buildable.builds.length
 

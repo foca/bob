@@ -1,12 +1,9 @@
 module Bob
   # Mixin to add to your classes.
   module Buildable
-    # Builds the list of commits you pass. You must provide an
-    # enumerable with commit identifiers appropriate to the
-    # repository the code is in (SHAs if git, rev numbers if svn,
-    # etc), or a single string with a commit id.
-    def build(commits)
-      Bob.build(self, commits)
+    # Build itself.
+    def build
+      Bob.build(self)
     end
 
     # What kind of repository this buildable represents. Must
@@ -28,6 +25,17 @@ module Bob
     #
     # <b>You must implement this in the classes where you mixin this module</b>
     def branch
+      raise NotImplementedError
+    end
+
+    # Indentifier of the commit to build.
+    #
+    # The special identifier <tt>:head</tt> will be resolved to the head
+    # commit of the current branch (for example, "HEAD" under git or the
+    # latest revision under svn)
+    #
+    # <b>You must implement this in the classes where you mixin this module</b>
+    def commit
       raise NotImplementedError
     end
 
