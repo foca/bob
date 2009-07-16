@@ -16,33 +16,30 @@ module Bob
 
       def update_code(commit)
         unless File.directory?("#{cache_directory}/.git")
-          run "git clone -n #{uri} #{cache_directory}", false
+          run "git clone -n #{uri} #{cache_directory}"
         end
 
-        run "cd #{cache_directory} && git fetch origin", false
-        run "cd #{cache_directory} && git checkout origin/#{branch}", false
+        run "git fetch origin", cache_directory
+        run "git checkout origin/#{branch}", cache_directory
       end
 
-      def checkout(commit_id)
-        unless File.directory?("#{directory_for(commit_id)}/.git")
-          run "git clone -ns #{cache_directory} #{directory_for(commit_id)}", false
+      def checkout(commit)
+        unless File.directory?("#{directory_for(commit)}/.git")
+          run "git clone -ns #{cache_directory} #{directory_for(commit)}"
         end
 
-        run "cd #{directory_for(commit_id)} &&  git fetch origin", false
+        run "git fetch origin", directory_for(commit)
+
         # First checkout the branch just in case the commit_id
         # turns out to be HEAD or other non-sha identifier
-        run "cd #{directory_for(commit_id)} && git checkout origin/#{branch}", false
-        run "cd #{directory_for(commit_id)} && git reset --hard #{commit_id}", false
+        run "git checkout origin/#{branch}", directory_for(commit)
+        run "git reset --hard #{commit}", directory_for(commit)
       end
 
       def cache_directory
         File.join(Bob.directory, "cache", path).tap { |dir|
           FileUtils.mkdir_p(dir)
         }
-      end
-
-      def git(command)
-        run "git #{command}"
       end
     end
   end

@@ -24,11 +24,11 @@ module Bob
       end
 
       def checkout(revision)
-        run("cd #{directory_for(revision)} && svn up -q -r#{revision}", false)
+        run "svn up -q -r#{revision}", directory_for(revision)
       end
 
       def initial_checkout(revision=nil)
-        run("svn co -q #{uri} #{directory_for(revision)}", false)
+        run "svn co -q #{uri} #{directory_for(revision)}"
       end
 
       def checked_out?(commit)
