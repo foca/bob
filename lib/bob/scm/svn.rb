@@ -17,28 +17,22 @@ module Bob
         $1.to_s
       end
 
-      def with_commit(commit_id)
-        update_code
-        checkout(commit_id)
-        yield
-      end
-
     private
 
-      def update_code
-        initial_checkout unless checked_out?
+      def update_code(commit)
+        initial_checkout(commit) unless checked_out?(commit)
       end
 
       def checkout(revision)
-        run("svn up -q -r#{revision}")
+        run("cd #{directory_for(revision)} && svn up -q -r#{revision}", false)
       end
 
       def initial_checkout(revision=nil)
-        run("svn co -q #{uri} #{working_dir}")
+        run("svn co -q #{uri} #{directory_for(revision)}", false)
       end
 
-      def checked_out?
-        File.directory?(working_dir + "/.svn")
+      def checked_out?(commit)
+        File.directory?(directory_for(commit) + "/.svn")
       end
     end
   end

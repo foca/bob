@@ -1,9 +1,9 @@
 module Bob
   module SCM
     class Git < Abstract
-      def info(commit_id)
-        format  = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
-        YAML.load(`cd #{working_dir} && git show -s --pretty=format:"#{format}" #{commit_id}`).tap { |info|
+      def info(commit)
+        format = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
+        YAML.load(`cd #{directory_for(commit)} && git show -s --pretty=format:"#{format}" #{commit}`).tap { |info|
           info[:committed_at] = Time.parse(info[:committed_at])
         }
       end
@@ -14,27 +14,31 @@ module Bob
 
       private
 
-      def update_code
-        cloned? ? fetch : clone
-      end
+      def update_code(commit)
+        unless File.directory?("#{cache_directory}/.git")
+          run "git clone #{uri} #{cache_directory}", false
+        end
 
-      def cloned?
-        File.directory?("#{working_dir}/.git")
-      end
-
-      def clone
-        run "git clone #{uri} #{working_dir}", false
-      end
-
-      def fetch
-        git "fetch origin"
+        run "cd #{cache_directory} && git fetch origin", false
+        run "cd #{cache_directory} && git checkout origin/#{branch}", false
       end
 
       def checkout(commit_id)
+        unless File.directory?("#{directory_for(commit_id)}/.git")
+          run "git clone -s #{cache_directory} #{directory_for(commit_id)}", false
+        end
+
+        run "cd #{directory_for(commit_id)} &&  git fetch origin", false
         # First checkout the branch just in case the commit_id
         # turns out to be HEAD or other non-sha identifier
-        git "checkout origin/#{branch}"
-        git "reset --hard #{commit_id}"
+        run "cd #{directory_for(commit_id)} && git checkout origin/#{branch}", false
+        run "cd #{directory_for(commit_id)} && git reset --hard #{commit_id}", false
+      end
+
+      def cache_directory
+        File.join(Bob.directory, "cache", path).tap { |dir|
+          FileUtils.mkdir_p(dir)
+        }
       end
 
       def git(command)

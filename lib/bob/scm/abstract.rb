@@ -8,29 +8,29 @@ module Bob
         @branch = branch
       end
 
-      # Checkout the code into <tt>working_dir</tt> at the specified revision
-      # and call the passed block
-      def with_commit(commit_id)
-        update_code
-        checkout(commit_id)
+      # Checkout the code at the specified <tt>commit</tt> and call the
+      # passed block.
+      def with_commit(commit)
+        update_code(commit)
+        checkout(commit)
         yield
       end
 
-      # Directory where the code will be checked out. Make sure the user
-      # running Bob is allowed to write to this directory (or you'll get a
-      # <tt>Errno::EACCESS</tt>)
-      def working_dir
-        @working_dir ||= "#{Bob.directory}/#{path}".tap { |dir|
+      # Directory where the code will be checked out for the given
+      # <tt>commit</tt>.
+      def directory_for(commit)
+        @working_dir ||= "#{Bob.directory}/#{path}-#{commit}".tap { |dir|
           FileUtils.mkdir_p(dir)
         }
       end
 
-      # Get some information about the specified commit. Returns a hash with:
+      # Get some information about the specified <tt>commit</tt>.
+      # Returns a hash with:
       #
       # [<tt>:author</tt>]       Commit author's name and email
       # [<tt>:message</tt>]      Commit message
       # [<tt>:committed_at</tt>] Commit date (as a <tt>Time</tt> object)
-      def info(commit_id)
+      def info(commit)
         raise NotImplementedError
       end
 
