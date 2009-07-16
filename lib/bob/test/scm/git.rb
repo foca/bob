@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/abstract"
 module Bob::Test
   class GitRepo < AbstractSCMRepo
     def create
-      FileUtils.mkdir_p(path)
+      FileUtils.mkdir(path)
 
       Dir.chdir(path) do
         run "git init"

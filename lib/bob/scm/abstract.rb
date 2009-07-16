@@ -19,9 +19,7 @@ module Bob
       # Directory where the code will be checked out for the given
       # <tt>commit</tt>.
       def directory_for(commit)
-        @working_dir ||= "#{Bob.directory}/#{path}-#{commit}".tap { |dir|
-          FileUtils.mkdir_p(dir)
-        }
+        File.join(Bob.directory, "#{path}-#{commit}")
       end
 
       # Get some information about the specified <tt>commit</tt>.

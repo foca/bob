@@ -36,8 +36,6 @@ class BobTestTest < Test::Unit::TestCase
   end
 
   def test_buildable_git_repo
-    Bob.directory = "/tmp/bob-git"
-
     repo = GitRepo.new(:test_repo)
     repo.destroy
     repo.create
@@ -45,15 +43,13 @@ class BobTestTest < Test::Unit::TestCase
     b = BuildableStub.for(repo, repo.head)
 
     assert_equal :git,                     b.scm
-    assert_equal "/tmp/bob-git/test_repo", b.uri
+    assert_equal "#{Bob.directory}/test_repo", b.uri
     assert_equal "master",                 b.branch
     assert_equal repo.head,                b.commit
     assert_equal "./test",                 b.build_script
   end
 
   def test_buildable_svn_repo
-    Bob.directory = "/tmp/bob-svn"
-
     repo = SvnRepo.new(:test_repo)
     repo.destroy
     repo.create
@@ -64,6 +60,6 @@ class BobTestTest < Test::Unit::TestCase
     assert_equal "",        b.branch
     assert_equal repo.head, b.commit
     assert_equal "./test",  b.build_script
-    assert_equal "file:///tmp/bob-svn/svn/test_repo", b.uri
+    assert_equal "file://#{Bob.directory}/svn/test_repo", b.uri
   end
 end

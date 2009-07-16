@@ -1,6 +1,14 @@
 module Bob
   module SCM
     class Git < Abstract
+      def initialize(uri, branch)
+        super
+
+        unless File.directory?(File.join(Bob.directory, "cache"))
+          FileUtils.mkdir(File.join(Bob.directory, "cache"))
+        end
+      end
+
       def info(commit)
         format = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
         YAML.load(`cd #{directory_for(commit)} && git show -s --pretty=format:"#{format}" #{commit}`).tap { |info|
@@ -37,9 +45,7 @@ module Bob
       end
 
       def cache_directory
-        File.join(Bob.directory, "cache", path).tap { |dir|
-          FileUtils.mkdir_p(dir)
-        }
+        File.join(Bob.directory, "cache", path)
       end
     end
   end

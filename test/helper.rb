@@ -26,5 +26,6 @@ class Test::Unit::TestCase
     Bob.directory = File.expand_path(File.dirname(__FILE__) + "/../tmp")
 
     FileUtils.rm_rf(Bob.directory) if File.directory?(Bob.directory)
+    FileUtils.mkdir_p(Bob.directory)
   end
 end

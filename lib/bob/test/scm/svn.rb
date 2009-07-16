@@ -58,7 +58,7 @@ module Bob::Test
 
     private
       def create_remote
-        FileUtils.mkdir_p(SvnRepo.server_root)
+        FileUtils.mkdir(SvnRepo.server_root)
 
         run "svnadmin create #{remote}"
 
