@@ -6,8 +6,9 @@ module Bob
     # in-memory queue, and processes them as soon as possible.
     class Threaded
       # The optional pool size controls how many threads will be created.
-      def initialize(pool_size = 2)
-        @pool = ThreadPool.new(pool_size)
+      def initialize(pool_size = 2, logger = Bob.logger)
+        @pool   = ThreadPool.new(pool_size)
+        @logger = logger
       end
 
       # Adds a job to the queue.
@@ -90,11 +91,12 @@ module Bob
         end
 
         # Default pool size is 2 threads.
-        def initialize(size = nil)
+        def initialize(size = nil, logger = Bob.logger)
           size ||= 2
           @jobs    = Queue.new
           @njobs   = Incrementor.new
           @workers = Array.new(size) { spawn }
+          @logger  = logger
         end
 
         # Adds a job to the queue, the job can be any number of objects
@@ -127,7 +129,12 @@ module Bob
             c[:run] = true
 
             while c[:run]
-              @jobs.pop.call
+              job = @jobs.pop
+              begin
+                job.call
+              rescue Exception => e
+                @logger.error("Exception occured during build of #{job.uri} commit #{job.commit}: #{e.message}")
+              end
               @njobs.dec
             end
           end
