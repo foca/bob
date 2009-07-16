@@ -16,7 +16,7 @@ module Bob
 
       def update_code(commit)
         unless File.directory?("#{cache_directory}/.git")
-          run "git clone #{uri} #{cache_directory}", false
+          run "git clone -n #{uri} #{cache_directory}", false
         end
 
         run "cd #{cache_directory} && git fetch origin", false
@@ -25,7 +25,7 @@ module Bob
 
       def checkout(commit_id)
         unless File.directory?("#{directory_for(commit_id)}/.git")
-          run "git clone -s #{cache_directory} #{directory_for(commit_id)}", false
+          run "git clone -ns #{cache_directory} #{directory_for(commit_id)}", false
         end
 
         run "cd #{directory_for(commit_id)} &&  git fetch origin", false
