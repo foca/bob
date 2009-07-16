@@ -13,7 +13,7 @@ class ThreadedBobTest < Test::Unit::TestCase
 
     repo.add_successful_commit
     commit_id = repo.commits.last[:identifier]
-    buildable = BuildableStub.call(@repo, commit_id)
+    buildable = BuildableStub.for(@repo, commit_id)
 
     begin
       Thread.abort_on_exception = true
@@ -21,11 +21,10 @@ class ThreadedBobTest < Test::Unit::TestCase
       buildable.build
       Bob.engine.wait!
 
-      status, output = buildable.builds[commit_id]
-      assert_equal :successful,          status
-      assert_equal "Running tests...\n", output
+      assert_equal :successful,          buildable.status
+      assert_equal "Running tests...\n", buildable.output
 
-      commit = buildable.metadata[commit_id]
+      commit = buildable.commit_info
       assert_equal "This commit will work", commit[:message]
       assert_equal Time.now.min,            commit[:committed_at].min
     ensure

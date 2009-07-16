@@ -29,50 +29,35 @@ class BobSvnTest < Test::Unit::TestCase
   test "with a successful build" do
     repo.add_successful_commit
 
-    buildable = BuildableStub.call(@repo, "2")
+    buildable = BuildableStub.for(@repo, "2")
     buildable.build
 
-    assert_equal 1, buildable.metadata.length
-
-    status, output = buildable.builds["2"]
-    assert_equal :successful,          status
-    assert_equal "Running tests...\n", output
-
-    assert_equal 1, buildable.metadata.length
-
-    commit = buildable.metadata["2"]
-    assert commit[:committed_at].is_a?(Time)
-    assert_equal "This commit will work", commit[:message]
+    assert_equal :successful,          buildable.status
+    assert_equal "Running tests...\n", buildable.output
+    assert_equal "This commit will work", buildable.commit_info[:message]
+    assert buildable.commit_info[:committed_at].is_a?(Time)
   end
 
   test "with a failed build" do
     repo.add_failing_commit
 
-    buildable = BuildableStub.call(@repo, "2")
+    buildable = BuildableStub.for(@repo, "2")
     buildable.build
 
-    status, output = buildable.builds["2"]
-    assert_equal :failed,              status
-    assert_equal "Running tests...\n", output
-
-    assert_equal 1, buildable.metadata.length
-
-    commit = buildable.metadata["2"]
-    assert commit[:committed_at].is_a?(Time)
-    assert_equal "This commit will fail", commit[:message]
+    assert_equal :failed,              buildable.status
+    assert_equal "Running tests...\n", buildable.output
+    assert_equal "This commit will fail", buildable.commit_info[:message]
+    assert buildable.commit_info[:committed_at].is_a?(Time)
   end
 
   test "can build the head of a repository" do
     repo.add_failing_commit
     repo.add_successful_commit
 
-    buildable = BuildableStub.call(@repo, :head)
+    buildable = BuildableStub.for(@repo, :head)
     buildable.build
 
-    assert_equal 1, buildable.builds.length
-
-    status, output = buildable.builds["3"]
-    assert_equal :successful,          status
-    assert_equal "Running tests...\n", output
+    assert_equal :successful,          buildable.status
+    assert_equal "Running tests...\n", buildable.output
   end
 end
