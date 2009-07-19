@@ -1,6 +1,6 @@
 module Bob
   module Test
-    BuildableStub = Struct.new(:scm, :uri, :branch, :commit, :build_script) do
+    class BuildableStub
       include Bob::Buildable
 
       def self.for(repo, commit)
@@ -18,10 +18,15 @@ module Bob
         new(scm, uri, branch, commit, build_script)
       end
 
-      attr_reader :repo, :status, :output, :commit_info
+      attr_reader :scm, :uri, :branch, :commit, :build_script,
+        :repo, :status, :output, :commit_info
 
-      def initialize(*args)
-        super
+      def initialize(scm, uri, branch, commit, build_script)
+        @scm = scm.to_s
+        @uri = uri.to_s
+        @branch = branch
+        @commit = commit
+        @build_script = build_script
 
         @status = nil
         @output = ""
