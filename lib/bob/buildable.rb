@@ -48,17 +48,15 @@ module Bob
       raise NotImplementedError
     end
 
-    # Callback sent when a build starts. The first argument is a
-    # string with whatever identifier is appropriate for a repository
-    # of this kind. The second is a hash with information about the
-    # commit.
+    # Callback sent when a build starts. The +commit_info+ argument
+    # is a hash with information about the commit.
     #
     # <tt>author</tt>:: A string with the name/email of the committer
     # <tt>message</tt>:: The commit message
     # <tt>committed_at</tt>:: A Time object with the timestamp of the commit
     #
     # <b>You must implement this in the classes where you mixin this module</b>
-    def start_building(commit_id, commit_info)
+    def start_building(commit_info)
       raise NotImplementedError
     end
 

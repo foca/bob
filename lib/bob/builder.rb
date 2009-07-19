@@ -21,7 +21,7 @@ module Bob
 
       in_background do
         scm.with_commit(commit) {
-          buildable.start_building(commit, scm.info(commit))
+          buildable.start_building(scm.info(commit))
           build_status, build_output = run_build_script
           buildable.finish_building(commit, build_status, build_output)
         }

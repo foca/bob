@@ -11,7 +11,7 @@ module Bob
           else
             "file://#{SvnRepo.server_root}/#{repo.name}"
           end
-        # move to repo
+        # TODO: move onto repo object?
         branch = (scm == "git") ? "master" : ""
         build_script = "./test"
 
@@ -33,7 +33,7 @@ module Bob
         @commit_info = {}
       end
 
-      def start_building(commit_id, commit_info)
+      def start_building(commit_info)
         @commit_info = commit_info
       end
 
