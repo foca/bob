@@ -24,29 +24,29 @@ class BobGitTest < Test::Unit::TestCase
   test "with a successful build" do
     repo.add_successful_commit
 
-    commit_id = repo.commits.last[:identifier]
+    commit_id = repo.commits.last["identifier"]
 
     buildable = BuildableStub.for(@repo, commit_id)
     buildable.build
 
     assert_equal :successful,          buildable.status
     assert_equal "Running tests...\n", buildable.output
-    assert_equal "This commit will work", buildable.commit_info[:message]
-    assert buildable.commit_info[:committed_at].is_a?(Time)
+    assert_equal "This commit will work", buildable.commit_info["message"]
+    assert buildable.commit_info["committed_at"].is_a?(Time)
   end
 
   test "with a failed build" do
     repo.add_failing_commit
 
-    commit_id = repo.commits.last[:identifier]
+    commit_id = repo.commits.last["identifier"]
     buildable = BuildableStub.for(@repo, commit_id)
 
     buildable.build
 
     assert_equal :failed,              buildable.status
     assert_equal "Running tests...\n", buildable.output
-    assert_equal "This commit will fail", buildable.commit_info[:message]
-    assert buildable.commit_info[:committed_at].is_a?(Time)
+    assert_equal "This commit will fail", buildable.commit_info["message"]
+    assert buildable.commit_info["committed_at"].is_a?(Time)
   end
 
   test "can build the head of a repository" do

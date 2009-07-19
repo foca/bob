@@ -7,7 +7,7 @@ module Bob
     end
 
     # What kind of repository this buildable represents. Must
-    # return a Symbol (:git, :svn, etc.)
+    # return a String ("git", "svn", etc.)
     #
     # <b>You must implement this in the classes where you mixin this module</b>
     def scm
@@ -53,10 +53,9 @@ module Bob
     # of this kind. The second is a hash with information about the
     # commit.
     #
-    # <tt>:author</tt>:: A string with the name/email of the committer
-    # <tt>:message</tt>:: The commit message
-    # <tt>:committed_at</tt>:: A Time object with the timestamp of the
-    #                          commit
+    # <tt>author</tt>:: A string with the name/email of the committer
+    # <tt>message</tt>:: The commit message
+    # <tt>committed_at</tt>:: A Time object with the timestamp of the commit
     #
     # <b>You must implement this in the classes where you mixin this module</b>
     def start_building(commit_id, commit_info)

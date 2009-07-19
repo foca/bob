@@ -10,9 +10,9 @@ module Bob
       end
 
       def info(commit)
-        format = %Q(---%n:author: %an <%ae>%n:message: >-%n  %s%n:committed_at: %ci%n)
+        format = %Q(---%nauthor: %an <%ae>%nmessage: >-%n  %s%ncommitted_at: %ci%n)
         YAML.load(`cd #{directory_for(commit)} && git show -s --pretty=format:"#{format}" #{commit}`).tap { |info|
-          info[:committed_at] = Time.parse(info[:committed_at])
+          info["committed_at"] = Time.parse(info["committed_at"])
         }
       end
 
