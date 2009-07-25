@@ -60,15 +60,13 @@ module Bob
       raise NotImplementedError
     end
 
-    # Callback sent after a build finishes. The first argument is a
-    # string with whatever identifier is appropriate for a respository
-    # of this kind. The second is a boolean which is true if the build
-    # was successful or false if it failed. And the last one is a string
-    # with the full output returned by the build process (STDOUT and
-    # STDERR interleaved)
+    # Callback sent after a build finishes. The first argument is a boolean
+    # indicating whether the build was successful. The second one is a string
+    # with the full output returned by the build process (STDOUT and STDERR
+    # interleaved)
     #
     # <b>You must implement this in the classes where you mixin this module</b>
-    def finish_building(commit_id, build_status, build_output)
+    def finish_building(build_status, build_output)
       raise NotImplementedError
     end
   end

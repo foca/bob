@@ -23,7 +23,7 @@ module Bob
         scm.with_commit(commit) {
           buildable.start_building(scm.info(commit))
           build_status, build_output = run_build_script
-          buildable.finish_building(commit, build_status, build_output)
+          buildable.finish_building(build_status, build_output)
         }
       end
     end
