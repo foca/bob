@@ -33,11 +33,8 @@ module Bob
         @commit_info = {}
       end
 
-      def start_building(commit_info)
+      def finish_building(commit_info, status, output)
         @commit_info = commit_info
-      end
-
-      def finish_building(status, output)
         @status = status ? :successful : :failed
         @output = output
       end
