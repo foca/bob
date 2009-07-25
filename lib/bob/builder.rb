@@ -12,18 +12,18 @@ module Bob
 
     # This is where the magic happens:
     #
-    # 1. Check out the repo to the appropriate commit.
-    # 2. Notify the buildable that the build is starting.
-    # 3. Run the build script on it in the background.
+    # 1. Notify the buildable that the build is starting.
+    # 2. Check out the repo to the appropriate commit.
+    # 3. Run the build script on it.
     # 4. Reports the build back to the buildable.
     def build
       Bob.logger.info "Building #{buildable.commit} of the #{buildable.scm} repo at #{buildable.uri}"
 
       in_background do
+        buildable.start_building if buildable.respond_to?(:start_building)
+
         scm.with_commit(commit) {
-          buildable.start_building if buildable.respond_to?(:start_building)
-          build_status, build_output = run_build_script
-          buildable.finish_building(scm.info(commit), build_status, build_output)
+          buildable.finish_building(scm.info(commit), *run_build_script)
         }
       end
     end
