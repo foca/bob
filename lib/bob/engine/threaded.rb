@@ -7,7 +7,7 @@ module Bob
     class Threaded
       # The optional pool size controls how many threads will be created.
       def initialize(pool_size = 2, logger = Bob.logger)
-        @pool   = ThreadPool.new(pool_size)
+        @pool   = ThreadPool.new(pool_size, logger)
         @logger = logger
       end
 
@@ -133,7 +133,7 @@ module Bob
               begin
                 job.call
               rescue Exception => e
-                @logger.error("Exception occured during build of #{job.uri} commit #{job.commit}: #{e.message}")
+                @logger.error("Exception occured during build: #{e.message}")
               end
               @njobs.dec
             end

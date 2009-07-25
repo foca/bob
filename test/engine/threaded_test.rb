@@ -31,4 +31,22 @@ class ThreadedBobTest < Test::Unit::TestCase
       Bob.engine = old_engine
     end
   end
+
+  class FakeLogger
+    attr_reader :msg
+
+    def error(msg)
+      @msg = msg
+    end
+  end
+
+  test "when something goes wrong" do
+    logger = FakeLogger.new
+
+    engine = Bob::Engine::Threaded.new(2, logger)
+    engine.call(proc { fail "foo" })
+    engine.wait!
+
+    assert_equal "Exception occured during build: foo", logger.msg
+  end
 end
