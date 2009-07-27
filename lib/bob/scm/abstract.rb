@@ -25,9 +25,10 @@ module Bob
       # Get some information about the specified <tt>commit</tt>.
       # Returns a hash with:
       #
-      # [<tt>:author</tt>]       Commit author's name and email
-      # [<tt>:message</tt>]      Commit message
-      # [<tt>:committed_at</tt>] Commit date (as a <tt>Time</tt> object)
+      # [<tt>identifier</tt>]   Commit identifier
+      # [<tt>author</tt>]       Commit author's name and email
+      # [<tt>message</tt>]      Commit message
+      # [<tt>committed_at</tt>] Commit date (as a <tt>Time</tt> object)
       def info(commit)
         raise NotImplementedError
       end
