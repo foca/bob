@@ -35,6 +35,7 @@ class BobSvnTest < Test::Unit::TestCase
     assert_equal :successful,          buildable.status
     assert_equal "Running tests...\n", buildable.output
     assert_equal "This commit will work", buildable.commit_info["message"]
+    assert_equal "2",                     buildable.commit_info["identifier"]
     assert buildable.commit_info["committed_at"].is_a?(Time)
   end
 
@@ -47,6 +48,7 @@ class BobSvnTest < Test::Unit::TestCase
     assert_equal :failed,              buildable.status
     assert_equal "Running tests...\n", buildable.output
     assert_equal "This commit will fail", buildable.commit_info["message"]
+    assert_equal "2",                     buildable.commit_info["identifier"]
     assert buildable.commit_info["committed_at"].is_a?(Time)
   end
 
@@ -59,5 +61,6 @@ class BobSvnTest < Test::Unit::TestCase
 
     assert_equal :successful,          buildable.status
     assert_equal "Running tests...\n", buildable.output
+    assert_equal repo.head,            buildable.commit_info["identifier"]
   end
 end

@@ -56,6 +56,8 @@ module Bob
     # Callback sent after a build finishes. The first argument is a hash with
     # information about the commit.
     #
+    # <tt>identifier</tt>:: A string with the commit identifier of the
+    # commit that was built
     # <tt>author</tt>:: A string with the name/email of the committer
     # <tt>message</tt>:: The commit message
     # <tt>committed_at</tt>:: A Time object with the timestamp of the commit

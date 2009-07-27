@@ -7,7 +7,8 @@ module Bob
         dump = `svn log --non-interactive --revision #{revision} #{uri}`.split("\n")
         meta = dump[1].split(" | ")
 
-        { "message" => dump[3],
+        { "identifier" => revision,
+          "message" => dump[3],
           "author"  => meta[1],
           "committed_at" => Time.parse(meta[2]) }
       end
