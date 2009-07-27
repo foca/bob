@@ -37,9 +37,9 @@ module Bob::Test
         doc = Hpricot::XML(`svn log --xml`)
 
         (doc/:log/:logentry).inject([]) { |commits, commit|
-          commits << { :identifier => commit["revision"],
-            :message      => commit.at("msg").inner_html,
-            :committed_at => Time.parse(commit.at("date").inner_html) }
+          commits << { "identifier" => commit["revision"],
+            "message"      => commit.at("msg").inner_html,
+            "committed_at" => Time.parse(commit.at("date").inner_html) }
         }.reverse
       end
     end

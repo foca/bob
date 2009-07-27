@@ -39,7 +39,7 @@ module Bob::Test
     end
 
     def head
-      commits.last[:identifier]
+      commits.last["identifier"]
     end
 
     protected

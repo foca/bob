@@ -19,8 +19,8 @@ module Bob::Test
       Dir.chdir(path) do
         commits = `git log --pretty=oneline`.collect { |l| l.split(" ").first }
         commits.inject([]) do |commits, sha1|
-          format  = "---%n:message: >-%n  %s%n:timestamp: %ci%n" +
-            ":identifier: %H%n:author: %n :name: %an%n :email: %ae%n"
+          format  = "---%nmessage: >-%n  %s%ntimestamp: %ci%n" +
+            "identifier: %H%nauthor: %n name: %an%n email: %ae%n"
           commits << YAML.load(`git show -s --pretty=format:"#{format}" #{sha1}`)
         end.reverse
       end
