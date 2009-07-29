@@ -1,14 +1,6 @@
 module Bob
   module SCM
     class Git < Abstract
-      def initialize(uri, branch)
-        super
-
-        unless Bob.directory.join("cache").directory?
-          Bob.directory.join("cache").mkdir
-        end
-      end
-
       protected
 
       def info(commit)
@@ -25,29 +17,17 @@ module Bob
       private
 
       def update_code(commit)
-        unless cache_directory.join(".git").directory?
-          run "git clone -n #{uri} #{cache_directory}"
-        end
-
-        run "git fetch origin", cache_directory
-        run "git checkout origin/#{branch}", cache_directory
+        run "git clone #{uri} #{directory_for(commit)}" unless cloned?(commit)
       end
 
       def checkout(commit)
-        unless directory_for(commit).join(".git").directory?
-          run "git clone -ns #{cache_directory} #{directory_for(commit)}"
-        end
-
         run "git fetch origin", directory_for(commit)
-
-        # First checkout the branch just in case the commit_id
-        # turns out to be HEAD or other non-sha identifier
         run "git checkout origin/#{branch}", directory_for(commit)
         run "git reset --hard #{commit}", directory_for(commit)
       end
 
-      def cache_directory
-        Bob.directory.join("cache", path)
+      def cloned?(commit)
+        directory_for(commit).join(".git").directory?
       end
     end
   end
