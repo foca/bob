@@ -4,10 +4,13 @@ module Bob
       protected
 
       def info(commit)
-        format = %Q(---%nidentifier: %H%nauthor: %an <%ae>%nmessage: >-%n  %s%ncommitted_at: %ci%n)
-        YAML.load(`cd #{dir_for(commit)} && git show -s --pretty=format:"#{format}" #{commit}`).tap { |info|
-          info["committed_at"] = Time.parse(info["committed_at"])
-        }
+        format = "---%nidentifier: %H%nauthor: %an \
+          <%ae>%nmessage: >-%n  %s%ncommitted_at: %ci%n"
+
+        dump = YAML.load(`cd #{dir_for(commit)} && git show -s \
+          --pretty=format:"#{format}" #{commit}`)
+
+        dump.update("committed_at" => Time.parse(dump["committed_at"]))
       end
 
       def head
