@@ -22,8 +22,8 @@ module Bob
       in_background do
         buildable.start_building if buildable.respond_to?(:start_building)
 
-        scm.with_commit(buildable.commit) {
-          buildable.finish_building(scm.info(buildable.commit), *run_build_script)
+        scm.with_commit(buildable.commit) { |commit_info|
+          buildable.finish_building(commit_info, *run_build_script)
         }
       end
     end

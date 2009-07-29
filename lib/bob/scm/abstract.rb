@@ -14,7 +14,7 @@ module Bob
         commit = resolve(commit)
         update_code(commit)
         checkout(commit)
-        yield
+        yield info(commit)
       end
 
       # Directory where the code will be checked out for the given
@@ -55,6 +55,8 @@ module Bob
           gsub(/[ \-]+/i, '-').     # No more than one of the separator in a row.
           gsub(/^\-|\-$/i, '')      # Remove leading/trailing separator.
       end
+
+      private
 
       def resolve(commit)
         commit == :head ? head : commit
