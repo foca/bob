@@ -3,6 +3,8 @@ require "bob/scm/abstract"
 module Bob
   module SCM
     class Svn < Abstract
+      protected
+
       def info(revision)
         dump = `svn log --non-interactive --revision #{revision} #{uri}`.split("\n")
         meta = dump[1].split(" | ")
@@ -13,12 +15,13 @@ module Bob
           "committed_at" => Time.parse(meta[2]) }
       end
 
+
       def head
         `svn info #{uri}`.split("\n").detect { |l| l =~ /^Revision: (\d+)/ }
         $1.to_s
       end
 
-    private
+      private
 
       def update_code(commit)
         initial_checkout(commit) unless checked_out?(commit)

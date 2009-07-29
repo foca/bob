@@ -9,6 +9,8 @@ module Bob
         end
       end
 
+      protected
+
       def info(commit)
         format = %Q(---%nidentifier: %H%nauthor: %an <%ae>%nmessage: >-%n  %s%ncommitted_at: %ci%n)
         YAML.load(`cd #{directory_for(commit)} && git show -s --pretty=format:"#{format}" #{commit}`).tap { |info|

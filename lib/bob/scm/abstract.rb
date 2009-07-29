@@ -24,6 +24,8 @@ module Bob
         File.join(Bob.directory, "#{path}-#{commit}")
       end
 
+      protected
+
       # Get some information about the specified <tt>commit</tt>.
       # Returns a hash with:
       #
@@ -40,8 +42,6 @@ module Bob
       def head
         raise NotImplementedError
       end
-
-      protected
 
       def run(command, directory=nil)
         command = "(#{directory ? "cd #{directory} && " : ""}#{command} &>/dev/null)"
