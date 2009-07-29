@@ -21,16 +21,12 @@ module Bob
 
       private
 
-      def update_code(commit)
-        initial_checkout(commit) unless checked_out?(commit)
-      end
-
       def checkout(revision)
-        run "svn up -q -r#{revision}", directory_for(revision)
-      end
+        unless checked_out?(revision)
+          run "svn co -q #{uri} #{directory_for(revision)}"
+        end
 
-      def initial_checkout(revision=nil)
-        run "svn co -q #{uri} #{directory_for(revision)}"
+        run "svn up -q -r#{revision}", directory_for(revision)
       end
 
       def checked_out?(commit)

@@ -12,7 +12,6 @@ module Bob
       # passed block.
       def with_commit(commit)
         commit = resolve(commit)
-        update_code(commit)
         checkout(commit)
         yield info(commit)
       end

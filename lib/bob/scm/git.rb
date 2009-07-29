@@ -16,11 +16,8 @@ module Bob
 
       private
 
-      def update_code(commit)
-        run "git clone #{uri} #{directory_for(commit)}" unless cloned?(commit)
-      end
-
       def checkout(commit)
+        run "git clone #{uri} #{directory_for(commit)}" unless cloned?(commit)
         run "git fetch origin", directory_for(commit)
         run "git checkout origin/#{branch}", directory_for(commit)
         run "git reset --hard #{commit}", directory_for(commit)
