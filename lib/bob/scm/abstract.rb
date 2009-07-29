@@ -18,7 +18,7 @@ module Bob
 
       # Directory where the code will be checked out for the given
       # <tt>commit</tt>.
-      def directory_for(commit)
+      def dir_for(commit)
         commit = resolve(commit)
         Bob.directory.join(path, "-", commit)
       end

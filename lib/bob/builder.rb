@@ -41,7 +41,7 @@ module Bob
     end
 
     def build_script
-      "(cd #{scm.directory_for(buildable.commit)} && #{buildable.build_script} 2>&1)"
+      "(cd #{scm.dir_for(buildable.commit)} && #{buildable.build_script} 2>&1)"
     end
 
     def scm

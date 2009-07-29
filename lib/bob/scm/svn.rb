@@ -23,14 +23,14 @@ module Bob
 
       def checkout(revision)
         unless checked_out?(revision)
-          run "svn co -q #{uri} #{directory_for(revision)}"
+          run "svn co -q #{uri} #{dir_for(revision)}"
         end
 
-        run "svn up -q -r#{revision}", directory_for(revision)
+        run "svn up -q -r#{revision}", dir_for(revision)
       end
 
       def checked_out?(commit)
-        directory_for(commit).join(".svn").directory?
+        dir_for(commit).join(".svn").directory?
       end
     end
   end
