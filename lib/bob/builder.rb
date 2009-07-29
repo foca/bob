@@ -22,17 +22,13 @@ module Bob
       in_background do
         buildable.start_building if buildable.respond_to?(:start_building)
 
-        scm.with_commit(commit) {
-          buildable.finish_building(scm.info(commit), *run_build_script)
+        scm.with_commit(buildable.commit) {
+          buildable.finish_building(scm.info(buildable.commit), *run_build_script)
         }
       end
     end
 
     private
-
-    def commit
-      @commit ||= buildable.commit == :head ? scm.head : buildable.commit
-    end
 
     def run_build_script
       build_output = nil
@@ -45,7 +41,7 @@ module Bob
     end
 
     def build_script
-      "(cd #{scm.directory_for(commit)} && #{buildable.build_script} 2>&1)"
+      "(cd #{scm.directory_for(buildable.commit)} && #{buildable.build_script} 2>&1)"
     end
 
     def scm

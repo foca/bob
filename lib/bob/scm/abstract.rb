@@ -11,6 +11,7 @@ module Bob
       # Checkout the code at the specified <tt>commit</tt> and call the
       # passed block.
       def with_commit(commit)
+        commit = resolve(commit)
         update_code(commit)
         checkout(commit)
         yield
@@ -19,6 +20,7 @@ module Bob
       # Directory where the code will be checked out for the given
       # <tt>commit</tt>.
       def directory_for(commit)
+        commit = resolve(commit)
         File.join(Bob.directory, "#{path}-#{commit}")
       end
 
@@ -52,6 +54,10 @@ module Bob
           gsub(/[^\w_ \-]+/i, '-'). # Remove unwanted chars.
           gsub(/[ \-]+/i, '-').     # No more than one of the separator in a row.
           gsub(/^\-|\-$/i, '')      # Remove leading/trailing separator.
+      end
+
+      def resolve(commit)
+        commit == :head ? head : commit
       end
     end
   end
