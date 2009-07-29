@@ -1,5 +1,3 @@
-require "bob/scm/abstract"
-
 module Bob
   module SCM
     class Svn < Abstract
