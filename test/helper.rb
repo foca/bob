@@ -23,9 +23,9 @@ class Test::Unit::TestCase
   def setup
     Bob.logger = Logger.new("/dev/null")
     Bob.engine = Bob::Engine::Foreground
-    Bob.directory = File.expand_path(File.dirname(__FILE__) + "/../tmp")
+    Bob.directory = Pathname(__FILE__).dirname.join("..", "tmp").expand_path
 
-    FileUtils.rm_rf(Bob.directory) if File.directory?(Bob.directory)
-    FileUtils.mkdir_p(Bob.directory)
+    Bob.directory.rmtree if Bob.directory.directory?
+    Bob.directory.mkdir
   end
 end

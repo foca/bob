@@ -4,8 +4,8 @@ module Bob
       def initialize(uri, branch)
         super
 
-        unless File.directory?(File.join(Bob.directory, "cache"))
-          FileUtils.mkdir(File.join(Bob.directory, "cache"))
+        unless Bob.directory.join("cache").directory?
+          Bob.directory.join("cache").mkdir
         end
       end
 
@@ -25,7 +25,7 @@ module Bob
       private
 
       def update_code(commit)
-        unless File.directory?("#{cache_directory}/.git")
+        unless cache_directory.join(".git").directory?
           run "git clone -n #{uri} #{cache_directory}"
         end
 
@@ -34,7 +34,7 @@ module Bob
       end
 
       def checkout(commit)
-        unless File.directory?("#{directory_for(commit)}/.git")
+        unless directory_for(commit).join(".git").directory?
           run "git clone -ns #{cache_directory} #{directory_for(commit)}"
         end
 
@@ -47,7 +47,7 @@ module Bob
       end
 
       def cache_directory
-        File.join(Bob.directory, "cache", path)
+        Bob.directory.join("cache", path)
       end
     end
   end

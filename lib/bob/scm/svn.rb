@@ -36,7 +36,7 @@ module Bob
       end
 
       def checked_out?(commit)
-        File.directory?(directory_for(commit) + "/.svn")
+        directory_for(commit).join(".svn").directory?
       end
     end
   end

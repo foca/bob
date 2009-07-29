@@ -21,7 +21,7 @@ module Bob
       # <tt>commit</tt>.
       def directory_for(commit)
         commit = resolve(commit)
-        File.join(Bob.directory, "#{path}-#{commit}")
+        Bob.directory.join(path, "-", commit)
       end
 
       protected

@@ -3,7 +3,8 @@ require File.dirname(__FILE__) + "/helper"
 class BobTest < Test::Unit::TestCase
   test "directory" do
     Bob.directory = "/foo/bar"
-    assert_equal "/foo/bar", Bob.directory
+    assert_equal "/foo/bar", Bob.directory.to_s
+    assert_instance_of Pathname, Bob.directory
   end
 
   test "logger" do
