@@ -9,7 +9,6 @@ require "bob/buildable"
 require "bob/builder"
 require "bob/scm"
 require "bob/engine"
-require "core_ext/object"
 
 module Bob
   # Builds the specified <tt>buildable</tt>. This object must understand
