@@ -4,7 +4,7 @@ require "hpricot"
 module Bob::Test
   class SvnRepo < AbstractSCMRepo
     def self.server_root
-      @root ||= File.join(Bob.directory, "svn")
+      @root ||= Bob.directory.join("svn")
     end
 
     attr_reader :remote
@@ -12,8 +12,8 @@ module Bob::Test
     def initialize(name, base_dir=Bob.directory)
       super
 
-      @path   = File.join(base_dir, "svn-#{name}")
-      @remote = File.join(SvnRepo.server_root, name.to_s)
+      @path   = base_dir.join("svn-#{name}")
+      @remote = SvnRepo.server_root.join(name.to_s)
     end
 
     def create
@@ -25,11 +25,6 @@ module Bob::Test
         run "echo 'just a test repo' >> README"
         add "README"
       end
-    end
-
-    def destroy
-      FileUtils.rm_r(remote) if File.directory?(remote)
-      super
     end
 
     def commits
@@ -58,7 +53,7 @@ module Bob::Test
 
     private
       def create_remote
-        FileUtils.mkdir(SvnRepo.server_root)
+        SvnRepo.server_root.mkdir
 
         run "svnadmin create #{remote}"
 

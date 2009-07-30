@@ -2,7 +2,6 @@ require File.dirname(__FILE__) + "/helper"
 
 class BobTestTest < Test::Unit::TestCase
   def assert_scm_repo(repo)
-    repo.destroy
     repo.create
 
     assert_equal 1, repo.commits.size
@@ -37,7 +36,6 @@ class BobTestTest < Test::Unit::TestCase
 
   def test_buildable_git_repo
     repo = GitRepo.new(:test_repo)
-    repo.destroy
     repo.create
 
     b = BuildableStub.for(repo, repo.head)
@@ -51,7 +49,6 @@ class BobTestTest < Test::Unit::TestCase
 
   def test_buildable_svn_repo
     repo = SvnRepo.new(:test_repo)
-    repo.destroy
     repo.create
 
     b = BuildableStub.for(repo, repo.head)

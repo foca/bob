@@ -7,10 +7,6 @@ module Bob::Test
       @path   = File.join(base_dir, @name.to_s)
     end
 
-    def destroy
-      FileUtils.rm_r path if File.directory?(path)
-    end
-
     def add_commit(message, &action)
       Dir.chdir(path) do
         yield action
