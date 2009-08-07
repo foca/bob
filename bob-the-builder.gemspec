@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name    = "bob-the-builder"
-  s.version = "0.1.1"
+  s.version = "0.1.2"
   s.date    = "2009-05-08"
 
   s.description = "Bob the Builder will build your code. Simple."
@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.rubygems_version  = "1.3.1"
 
   s.add_dependency "addressable"
+  s.add_dependency "ninja"
 
   if s.respond_to?(:add_development_dependency)
     s.add_development_dependency "sr-mg"
@@ -31,9 +32,6 @@ README.rdoc
 Rakefile
 bob-the-builder.gemspec
 lib/bob.rb
-lib/bob/background_engines.rb
-lib/bob/background_engines/foreground.rb
-lib/bob/background_engines/threaded.rb
 lib/bob/builder.rb
 lib/bob/buildable.rb
 lib/bob/scm.rb
@@ -41,7 +39,6 @@ lib/bob/scm/abstract.rb
 lib/bob/scm/git.rb
 lib/bob/scm/svn.rb
 lib/core_ext/object.rb
-test/background_engine/threaded_test.rb
 test/bob_test.rb
 test/helper.rb
 test/helper/abstract_scm_helper.rb

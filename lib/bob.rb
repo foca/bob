@@ -2,6 +2,7 @@ require "fileutils"
 require "yaml"
 require "logger"
 require "time"
+require "ninja"
 require "addressable/uri"
 
 require "bob/buildable"
@@ -38,13 +39,6 @@ module Bob
     @directory || "/tmp"
   end
 
-  # What will you use to build in background. Must respond to <tt>call</tt> and
-  # take a block which will be run "in background". The default is to run in 
-  # foreground.
-  def self.engine
-    @engine || BackgroundEngines::Foreground
-  end
-
   # What to log with (must implement ruby's Logger interface). Logs to STDOUT 
   # by default.
   def self.logger
@@ -52,6 +46,6 @@ module Bob
   end
 
   class << self
-    attr_writer :directory, :engine, :logger
+    attr_writer :directory, :logger
   end
 end

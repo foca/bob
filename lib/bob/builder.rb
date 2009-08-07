@@ -4,6 +4,8 @@ module Bob
   class Builder
     attr_reader :buildable
 
+    include Ninja
+
     # Instantiate the Builder, passing an object that understands the <tt>Buildable</tt>
     # interface, and a <tt>commit_id</tt>.
     #
@@ -54,10 +56,6 @@ module Bob
 
     def scm
       @scm ||= SCM.new(buildable.kind, buildable.uri, buildable.branch)
-    end
-
-    def in_background(&block)
-      Bob.engine.call(block)
     end
   end
 end
